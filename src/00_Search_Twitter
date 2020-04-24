@@ -1,4 +1,0 @@
-library(rtweet)
-autis <- search_tweets(q = "#autism", n = 10000,
-                        lang = "en",
-                        include_rts = FALSE, retryonratelimit = TRUE)

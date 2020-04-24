@@ -1,3 +1,11 @@
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : processing pipeline (old TwiMed.R)
+# date            : 2020-04-24
+# version         : 1
+# ==============================================================================
+
 #recherche
 
 library(tidyr)
@@ -10,16 +18,6 @@ library(igraph)
 library(tidyverse)
 library(plyr)
 library(qgraph)
-
-
-
-
-
-library(rtweet)
-autis <- search_tweets(q = "#autism", n = 10000,
-                        lang = "en",
-                        include_rts = FALSE, retryonratelimit = TRUE)
-
 
 
 ############### New with QGRAPH
@@ -73,23 +71,6 @@ for (j in unique.words$word[1:1000]){
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 autis$stripped_text <- gsub("http.*","",  autis$text)
 autis$stripped_text <- gsub("https.*","", autis$stripped_text)
 autis$stripped_text <- gsub("autis","", autis$stripped_text)
@@ -98,7 +79,6 @@ autism_clea <- autis %>%
   unnest_tokens(word, stripped_text)
 
 View(autism_clea)
-
 
 
 # View(autism_clea)
@@ -155,26 +135,6 @@ autii <- tibble(autism_words_counts)
 cor(autii)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # code de Ju pour faire le réseau de base résumant la féquence des mots en fonction des couleurs et des tailles
 # s'y ajoute le vertew.color avec 'b' qui vient de la mesure de betweenness réalisé dessous
 
@@ -197,11 +157,6 @@ gplo <- plot.igraph(g, layout=lay,
                     main="Connections")
 
 
-
-
-
-
-
 colors = b # cf les mesures de centralité ci dessous pour comprendre
 vertexCol= colors
 
@@ -209,7 +164,6 @@ vertexCol= colors
 # autism_words_counts$n
 # autism_words_counts$n[1:33]
 # vertex.size = c(261,218,199,74,,,)
-
 
 
 ################### Mesures de centralité     sur 100 termes 
@@ -337,8 +291,6 @@ hu <- plot.igraph(g, layout=laylgl,
 # https://f.hypotheses.org/wp-content/blogs.dir/2996/files/2017/02/visualiseR.pdf 
 
 
-
-
 # mon code qui marche pas 
   r <- graph_from_data_frame(autism_words_counts, filter(n >= 24) )
   plot(r)
@@ -356,8 +308,6 @@ hu <- plot.igraph(g, layout=laylgl,
   
 #  vertex.size=autism_words_counts$n[1:33]/10,   car 33 mots
   
-
-
   
 #### Network ok 2
 
@@ -398,7 +348,6 @@ autism_words_counts %>%
        labs(title = "Word Network: Tweets using the hashtag - #autism", subtitle = "Text mining twitter data ", x = "", y = "")
 
 
-
 #best network avec Guillaume ++++++
 
 # données en igraph
@@ -408,8 +357,6 @@ View(g)
 
 
 library("scales")
-
-
 
 
 # sur qgraph
@@ -438,23 +385,6 @@ clusteringPlot(S, scale = c("z-scores", "raw", "raw0","relative"), labels , sign
 centrality(Q)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ### ancien essai non fructueux
 
 bigram_graph <- autism_words_counts %>%
@@ -468,8 +398,6 @@ graphou <- ggraph(bigram_graph, layout = "fr") +
 
 plot(graphou)
 View(bigram_graph)
-
-
 
 
 ## utiliser le ggraph pour mesure de centralité ?    https://www.data-imaginist.com/2017/introducing-tidygraph/
@@ -492,17 +420,9 @@ a <- ggraph(graphou, layout = 'linear') +
   geom_edge_arc(aes(colour = red))
 
 
-
-
-
-
-
-
-
 create_notable('bull') %>%
   activate(nodes) %>%
   mutate(importance = centrality_alpha())
-
 
 
 #### autre technique depuis graphou   https://www.rpubs.com/Steven_Surya/tidygraph-ggraph
@@ -512,7 +432,6 @@ graphou$layout_ggraph %>%
   ggraph(layout = "gem") +
   geom_node_point() +
   geom_edge_diagonal() 
-
 
 
 ## NON

@@ -1,5 +1,12 @@
-load("~/Desktop/R/TwiMed/DonneesAutis.RData")
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : processing pipeline for Twitter data (old TwiMed_OK.R)
+# date            : 2020-04-24
+# version         : 1
+# ==============================================================================
 
+load("../data/Autis_Twitter.RData")
 
 autis$stripped_text <- gsub("http.*","",  autis$text)
 autis$stripped_text <- gsub("https.*","", autis$stripped_text)
@@ -210,6 +217,7 @@ epred <- qgraph(pred_Twit$pairwise$wadj, # utiliser la matrice de corrélation
 
 library(topicmodels)
 library(tm)
+# https://www.tidytextmining.com/topicmodeling.html
 # https://cran.r-project.org/web/packages/topicmodels/topicmodels.pdf
 # les datas doivent être un documenTermMatrix fait sous tm
 data(crude)

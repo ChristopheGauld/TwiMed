@@ -1,11 +1,19 @@
-autism <- read.csv("~/Documents/Christophe/autismclean", sep="")
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : bootstraps analyses on the Twitter data
+# date            : 2020-04-24
+# version         : 1
+# ==============================================================================
+
+autism <- read.csv("../data/autismclean", sep="")
 
 library(boot)
 View(autism_clea)
 # Nombre de mot
 length(unique(autism_clea$word))
 
-#J’arrive pas à faire fonctionner boot() avec un data frame de facteur donc je converti le dataframe en vecteur de chaîne de caractères
+# J’arrive pas à faire fonctionner boot() avec un data frame de facteur donc je converti le dataframe en vecteur de chaîne de caractères
 autism_clea = as.character(autism_clea$word)
 
 # Nettoyage mots courants
@@ -133,7 +141,7 @@ library("Hmisc")
 source("halfViolinPlots.R") 
 
 ## Load the data
-inputData <- read.delim2("Wordstwitter.csv",
+inputData <- read.delim2("../data/Wordstwitter.csv",
                          header = TRUE,
                          sep = ';',
                          quote = '',

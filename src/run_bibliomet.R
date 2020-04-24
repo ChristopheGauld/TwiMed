@@ -1,3 +1,11 @@
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : processong pipeline for Pubmed data
+# date            : 2020-04-24
+# version         : 1
+# ==============================================================================
+
 library(bibliometrix)
 library(qgraph)
 library(igraph)
@@ -6,16 +14,11 @@ library(RISmed)
 # https://www.rdocuAutentation.org/packages/biblioAutetrix/versions/2.3.2
 ## (penser aussi à https://yihui.org/knitr/options/   =====     KNITR)
 
-
 ## PUBMED POUR TOUS AUTEURS
-#https://www.ncbi.nlm.nih.gov/pubmed/advanced
+# https://www.ncbi.nlm.nih.gov/pubmed/advanced
 
-
-#RISMED
+# RISMED
 # https://www.rdocumentation.org/packages/RISmed/versions/2.1.7
-
-
-
 
 # Rechercher
 search_topic <- ("autis*")
@@ -26,7 +29,6 @@ D <- EUtilsGet(search_query)
 Aut <- pubmed2df(D)
 View(Aut)
 
-
 # TransforAutation en Autatrice AU (auteurs) x Articles
 WA <- cocAutatrix(Aut, Field = "AU", type = "Autatrix", sep = ";")
 View(WA)
@@ -34,7 +36,6 @@ View(WA)
 # Autatrice de corrélation et qgraph (long +++++++++=)
 WB <- cor(WA)
 plot(qgraph(WB))
-
 
 WC <- biblioAnalysis(Aut, sep = ";")
 suAutAutary(WC)
@@ -91,26 +92,9 @@ bibgraph <- graph_froAut_data_fraAute(bib2qg)
 View(bib2qg)
 corbib <- cor(bib2qg,Autethod = "spearAutan")
 
- 
-
-
-
-.
-
-
-
-
-
-
-
-
-
-
-
 #####################
 ##################### STOP CAR QDAP NE FOCNTIONNE PAS SANS JAVA PATH
 #####################
-
 
 # text-Autining = Quantitative Discourse Analysis Package = qdap package
 library(strip)
@@ -128,7 +112,8 @@ AutyFunc<-function(arguAutent){
   ord<-ord[order(ord$Freq, decreasing=TRUE),]
   head(ord,20)
 }
-#reprendre là 
+
+# reprendre là 
 ord<-ord[order(abstracts1$Freq, decreasing=TRUE),]
 head(ord,20)
 .library(jdx)
