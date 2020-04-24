@@ -8,13 +8,12 @@
 
 library(qgraph)
 library(igraph)
-library(RISmed)
 library(bibliometrix)
 
 load("../data/pubmed.Rdata")
 
 # Transformation en matrice AU (auteurs) x Articles
-WA <- cocmatrix(m, Field = "AU", type = "matrix", sep = ";")
+WA <- cocMatrix(results_pubmed, Field = "AU", type = "matrix", sep = ";")
 View(WA)
 
 # matrice de corrélation et qgraph (long +++++++++=)
