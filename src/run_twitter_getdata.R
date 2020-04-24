@@ -8,12 +8,13 @@
 
 library(rtweet)
 
-output_file <- paste0("../data/twitter", format(Sys.time(),'_%Y-%m-%d'), ".csv")
+output_file <- "../data/twitter.csv"
 
 # Tutorial: https://rtweet.info/articles/intro.html
 
-autis <- search_tweets(q = "#autism", n = 10000,
-                        lang = "en",
-                        include_rts = FALSE, retryonratelimit = TRUE)
+results <- search_tweets(q = "#autism", n = 10000,
+                         lang = "en",
+                         include_rts = FALSE, retryonratelimit = TRUE)
 
-# TODO: Add save to ==> CSV (use output_file) or RData to start...
+# save.image(file = paste0(output_file, ".RData"))
+write.table(results, output_file)
