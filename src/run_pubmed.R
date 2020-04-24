@@ -9,11 +9,7 @@
 library(qgraph)
 library(igraph)
 library(RISmed)
-
-# Toutes caractéristiques transforAutées en df
-D <- EUtilsGet(search_query)
-Aut <- pubmed2df(D)
-View(Aut)
+library(bibliometrix)
 
 # TransforAutation en Autatrice AU (auteurs) x Articles
 WA <- cocAutatrix(Aut, Field = "AU", type = "Autatrix", sep = ";")

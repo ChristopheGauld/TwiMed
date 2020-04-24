@@ -6,7 +6,7 @@
 # version         : 1
 # ==============================================================================
 
-load("../data/Autis_Twitter.RData")
+load("../data/twitter.RData")
 
 autis$stripped_text <- gsub("http.*","",  autis$text)
 autis$stripped_text <- gsub("https.*","", autis$stripped_text)
