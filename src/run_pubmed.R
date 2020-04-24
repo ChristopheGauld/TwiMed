@@ -1,28 +1,14 @@
 #!/usr/bin/env Rscript
 # coding=utf-8
 # ==============================================================================
-# description     : processong pipeline for Pubmed data
+# description     : processing pipeline for Pubmed data
 # date            : 2020-04-24
 # version         : 1
 # ==============================================================================
 
-library(bibliometrix)
 library(qgraph)
 library(igraph)
 library(RISmed)
-
-# https://www.rdocuAutentation.org/packages/biblioAutetrix/versions/2.3.2
-## (penser aussi à https://yihui.org/knitr/options/   =====     KNITR)
-
-## PUBMED POUR TOUS AUTEURS
-# https://www.ncbi.nlm.nih.gov/pubmed/advanced
-
-# RISMED
-# https://www.rdocumentation.org/packages/RISmed/versions/2.1.7
-
-# Rechercher
-search_topic <- ("autis*")
-search_query <- EUtilsSummary(search_topic, retAutax=200, Autindate=1950, Autaxdate=2020)
 
 # Toutes caractéristiques transforAutées en df
 D <- EUtilsGet(search_query)

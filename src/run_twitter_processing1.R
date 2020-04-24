@@ -226,7 +226,3 @@ tdm <- TermDocumentMatrix(e,
                                          stopwords = TRUE))
 
 ap_lda <- LDA(I, k = 2, control = list(seed = 1234))
-
-
-
-
