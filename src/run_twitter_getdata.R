@@ -7,8 +7,9 @@
 # ==============================================================================
 
 library(rtweet)
+library(readr)
 
-output_file <- "../data/twitter.csv"
+output_file <- "../data/twitter.Rdata"
 
 # Tutorial: https://rtweet.info/articles/intro.html
 
@@ -16,5 +17,4 @@ results <- search_tweets(q = "#autism", n = 10000,
                          lang = "en",
                          include_rts = FALSE, retryonratelimit = TRUE)
 
-# save.image(file = paste0(output_file, ".RData"))
-write.table(results, output_file)
+save.image(output_file)
