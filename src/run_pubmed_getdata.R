@@ -22,8 +22,7 @@ search_topic <- ("autis*")
 search_query <- EUtilsSummary(search_topic, type="esearch", db="pubmed", retmax=200, mindate=1950, maxdate=2020)
 
 # Toutes caractéristiques transformées en df
-D <- EUtilsGet(search_query, type="efetch", db="pubmed")
-m <- pubmed2df(D, dbsource= "pubmed")
-# View(m)
+search_output <- EUtilsGet(search_query, type="efetch", db="pubmed")
+results_pubmed <- pubmed2df(search_output)
 
-save.image(output_file)
+save(results_pubmed, file = output_file)

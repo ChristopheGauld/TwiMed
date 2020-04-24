@@ -12,8 +12,9 @@ output_file <- "../data/twitter.Rdata"
 
 # Tutorial: https://rtweet.info/articles/intro.html
 
-results <- search_tweets(q = "#autism", n = 10000,
-                         lang = "en",
-                         include_rts = FALSE, retryonratelimit = TRUE)
+results_twitter <- search_tweets(q = "#autism", n = 10000,
+                                 lang = "en",
+                                 include_rts = FALSE,
+                                 retryonratelimit = TRUE)
 
-save.image(output_file)
+save(results_twitter, file = output_file)
