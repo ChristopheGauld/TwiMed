@@ -7,7 +7,6 @@
 # ==============================================================================
 
 library(rtweet)
-library(readr)
 
 output_file <- "../data/twitter.Rdata"
 
