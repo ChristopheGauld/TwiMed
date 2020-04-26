@@ -75,6 +75,7 @@ for (i in 1:50) {
 }
 
 library(prettyR)
+
 describe(results)
 data.50$mean = apply(results,2,mean)
 data.50$median = apply(results,2,median)
