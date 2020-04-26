@@ -46,9 +46,7 @@ plot(o)
 
 ### coefficient de clustering
 transitivity(p, type = "average") 
-
 transitivity(o, type = "average") 
-
 ml <- cor_auto(t)
 
 
