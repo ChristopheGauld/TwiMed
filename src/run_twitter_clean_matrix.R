@@ -52,7 +52,7 @@ unique.words = words %>%
   count(word, sort = TRUE)
 
 
-# On rempli le data.frame avec les #
+# On remplit le data.frame avec les #
 Idiese = I
 Idiese[,2:1001]=0
 nTweetDiese=NA
@@ -69,7 +69,7 @@ for (j in unique.words$word[1:1000]){
   print(compteur)
 }
 
-
+#cleaning
 autis$stripped_text <- gsub("http.*","",  autis$text)
 autis$stripped_text <- gsub("https.*","", autis$stripped_text)
 autis$stripped_text <- gsub("autis","", autis$stripped_text)
