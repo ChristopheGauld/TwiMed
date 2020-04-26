@@ -61,6 +61,7 @@ library("ggpubr")
 library("Hmisc") 
 source("halfViolinPlots.R") 
 
+
 ## Load the data
 inputData <- read.delim2("../data/Wordstwitter.csv",
                          header = TRUE,
