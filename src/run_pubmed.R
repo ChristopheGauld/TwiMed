@@ -18,19 +18,19 @@ View(WA)
 
 # matrice de corrélation et qgraph (long +++++++++=)
 WB <- cor(WA)
-plot(qgraph(WB))
+qgraph(WB)
 
-WC <- biblioAnalysis(m, sep = ";")
+WC <- biblioAnalysis(results_pubmed, sep = ";")
 summary(WC)
 
 # nombre de fois ou un papier a été cité chaque année
-plot(WC$mostCitedPapers)
+plot(WC$MostCitedPapers)
 plot(WC$Countrie)
 # essayer les mres options ++
 
 # map thématique sur le sujet 
-Wm <- thematicmap(m, field = "ID", n = 450, minfreq = 2,
-            stemming = FALSE, size = 0.5, n.labels = 1, repel = TRUE)
+Wm <- thematicMap(results_pubmed, field = "ID", n = 450, minfreq = 2,
+                  stemming = FALSE, size = 0.5, n.labels = 1, repel = TRUE)
 plot(Wm$map)
 
 # structure conceptuelle

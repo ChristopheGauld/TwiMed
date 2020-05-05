@@ -6,23 +6,19 @@
 # version         : 1
 # ==============================================================================
 
-library(RISmed)
+library(pubmedR)
 library(bibliometrix)
 
 output_file <- "../data/pubmed.Rdata"
 
 # https://www.rdocumentation.org/packages/bibliometrix/versions/2.3.2
-## (penser aussi à https://yihui.org/knitr/options/   =====     KNITR)
-## PUBMED POUR TOUS AUTEURS
 # https://www.ncbi.nlm.nih.gov/pubmed/advanced
-# RISMED
-# https://www.rdocumentation.org/packages/RISmed/versions/2.1.7
 
-search_topic <- ("autis*")
-search_query <- EUtilsSummary(search_topic, type="esearch", db="pubmed", retmax=200, mindate=1950, maxdate=2020)
+search_query <- ("autis*")
+res <- pmQueryTotalCount(search_topic)
+search_output <- pmApiRequest(query = search_query, limit = res$total_count, api_key = NULL)
 
 # Toutes caractéristiques transformées en df
-search_output <- EUtilsGet(search_query, type="efetch", db="pubmed")
-results_pubmed <- pubmed2df(search_output)
+results_pubmed <- convert2df(search_output, dbsource = "pubmed", format="pubmed")
 
 save(results_pubmed, file = output_file)
