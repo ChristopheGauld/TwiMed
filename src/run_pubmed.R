@@ -9,6 +9,9 @@
 library(qgraph)
 library(igraph)
 library(bibliometrix)
+library(strip)
+library(qdap)
+library(jdx)
 
 load("../data/pubmed.Rdata")
 
@@ -17,8 +20,8 @@ WA <- cocMatrix(results_pubmed, Field = "AU", type = "matrix", sep = ";")
 View(WA)
 
 # matrice de corrélation et qgraph (long +++++++++=)
-WB <- cor(WA)
-qgraph(WB)
+# WB <- cor(WA)
+# qgraph(WB)
 
 WC <- biblioAnalysis(results_pubmed, sep = ";")
 summary(WC)
@@ -34,35 +37,28 @@ Wm <- thematicMap(results_pubmed, field = "ID", n = 450, minfreq = 2,
 plot(Wm$map)
 
 # structure conceptuelle
-conceptualStructure(m, field = "ID", method = "mCA",
+conceptualStructure(results_pubmed, field = "ID", method = "mCA",
                     quali.supp = NULL, quanti.supp = NULL, minDegree = 2,
                     clust = "mo", k.max = 5, stemming = FALSE, labelsize = 10,
                     documents = 10, graph = TRUE)
 
-
-# réseaux des cocitations (fonctionne pas )
-histResults <- histNetwork(m, min.citations = 1, sep = ";", verbose = TRUE)
+# réseaux des cocitations (ne fonctionne pas)
+histResults <- histNetwork(results_pubmed, min.citations = 1, sep = ";", verbose = TRUE)
 summary(histResults)
 View(histResults)
 histPlot(histResults, n = 20, size = 5, labelsize = 5, verbose = TRUE)
 
-
-
 # Co-word network analysis and clustering
-Nodes <- thematicEvolution(m, field = "ID", 2014, n = 250, minFreq = 2,
+Nodes <- thematicEvolution(results_pubmed, field = "ID", 2014, n = 250, minFreq = 2,
                   size = 0.5, stemming = FALSE, n.labels = 1, repel = TRUE)
 
 ## EDGES ??????
-
-nexus <- plotThematicEvolution(Nodes, Edges, measure = "inclusion",
-                      min.flow = 0)
-
+nexus <- plotThematicEvolution(Nodes, Edges, measure = "inclusion", min.flow = 0)
 plot(nexus)
 
 
 # Network Statistics et igraph    (a reprendre !!!)
-bibNet <- biblioNetwork(m, analysis = "collaboration", network = "mhors",
-              sep = ";", shortlabel = TRUE)
+bibNet <- biblioNetwork(results_pubmed, analysis = "collaboration", network = "mhors", sep = ";", shortlabel = TRUE)
 
 bibStat <- networkStat(bibNet, stat = "network", type = "degree")
 plot(bibStat$graph)
@@ -80,8 +76,7 @@ corbib <- cor(bib2qg,method = "spearman")
 #####################
 
 # text-mining = Quantitative Discourse Analysis Package = qdap package
-library(strip)
-library(qdap)
+
 
 myFunc<-function(argument){
   abstracts1<-data.frame('Abstract'=AbstractText(D), 'Year'=YearPubmed(D))
@@ -99,8 +94,8 @@ myFunc<-function(argument){
 # reprendre là 
 ord<-ord[order(abstracts1$Freq, decreasing=TRUE),]
 head(ord,20)
-.library(jdx)
-sudo R CmD javareconf
+
+# sudo R CmD javareconf (??? Never put a "sudo" in a script !!!)
 if(!require(devtools)) install.packages("devtools")
 devtools::install_github("", build_vignettes = FALSE)
 update.packages(checkBuilt = TRUE)
