@@ -2,9 +2,86 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for Pubmed data
-# date            : 2020-04-24
+# date            : 2020-05-08
 # version         : 1
 # ==============================================================================
+
+
+
+
+##### https://amunategui.github.io/pubmed-query/
+
+library(RISmed)
+search_topic <- 'autis*'
+search_query <- EUtilsSummary(search_topic, retmax=100, mindate=2020, maxdate=2020)
+View(search_query)
+
+records<- EUtilsGet(search_query)
+
+pubmed_data <- data.frame('Title'=ArticleTitle(records),'Abstract'=AbstractText(records))
+
+pubmed_data$Abstract <- as.character(pubmed_data$Abstract)
+pubmed_data$Abstract <- gsub(",", " ", pubmed_data$Abstract, fixed = TRUE)
+str(pubmed_data)
+
+
+
+### Text mining   = similaire à run_twitter_clean_matrix.R
+
+
+library(tidyr)
+library(dplyr)
+library(tidytext)
+library(dplyr)
+library(rtweet)
+
+### Strip
+pubmed_data$stripped_text <- gsub("http.*","",  pubmed_data)
+words <- pubmed_data %>%
+  select(stripped_text) %>%
+  unnest_tokens(word, stripped_text)
+
+
+## stop words
+data("stop_words")
+stop_words = rbind (stop_words,"autism","amp", "covid")
+words <- words %>% 
+  anti_join(stop_words)
+
+############# ........continuer comme dans run_twitter_clean_matrix.R si on veut les mêmes analyses, le bootstrap, etc. 
+
+
+
+####### et pour le graph : inspiré de run_twitter_network_igraph.R
+autism_pubmed_clean <- pubmed_data %>%
+  dplyr::select(stripped_text) %>%     unnest_tokens(word, stripped_text)
+
+
+autism_tweets_paired_words <- autism_tweets_clean %>%
+  dplyr::select(stripped_text) %>%
+  unnest_tokens(paired_words, stripped_text, token = "ngrams", n = 2)
+
+autism_tweets_paired_words <- autism_pubmed_clean %>%
+  unnest_tokens(paired_words, token = "ngrams", n = 2)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+###### ANCIENNE VERSION (avril 2020)
 
 update.packages(checkBuilt = TRUE)
 library(qgraph)
