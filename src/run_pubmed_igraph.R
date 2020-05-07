@@ -6,11 +6,9 @@
 # version         : 1
 # ==============================================================================
 
-
-
 #### PUBMED 
 library(qgraph)
-library("lavaan")
+library(lavaan)
 
 # Datas from an "export" from PubMed
 d  <- DatasOKNOTTS
@@ -48,5 +46,3 @@ plot(o)
 transitivity(p, type = "average") 
 transitivity(o, type = "average") 
 ml <- cor_auto(t)
-
-

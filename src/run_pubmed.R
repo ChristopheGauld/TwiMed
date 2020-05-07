@@ -6,12 +6,12 @@
 # version         : 1
 # ==============================================================================
 
+update.packages(checkBuilt = TRUE)
 library(qgraph)
 library(igraph)
 library(bibliometrix)
 library(strip)
 library(qdap)
-library(jdx)
 
 load("../data/pubmed.Rdata")
 
@@ -19,9 +19,9 @@ load("../data/pubmed.Rdata")
 WA <- cocMatrix(results_pubmed, Field = "AU", type = "matrix", sep = ";")
 View(WA)
 
-# matrice de corrélation et qgraph (long +++++++++=)
-# WB <- cor(WA)
-# qgraph(WB)
+# matrice de corrélation et qgraph (long +++++++++)
+WB <- cor(WA)
+qgraph(WB)
 
 WC <- biblioAnalysis(results_pubmed, sep = ";")
 summary(WC)
@@ -69,10 +69,10 @@ bib2qg <- data.frame(bib2qg)
 bibgraph <- graph_from_data_frame(bib2qg)
 
 View(bib2qg)
-corbib <- cor(bib2qg,method = "spearman")
+corbib <- cor(bib2qg, method = "spearman")
 
 #####################
-##################### STOP CAR QDAP NE FOCNTIONNE PAS SANS JAVA PATH
+##################### STOP CAR QDAP NE FONCTIONNE PAS SANS JAVA PATH
 #####################
 
 # text-mining = Quantitative Discourse Analysis Package = qdap package
@@ -94,8 +94,3 @@ myFunc<-function(argument){
 # reprendre là 
 ord<-ord[order(abstracts1$Freq, decreasing=TRUE),]
 head(ord,20)
-
-# sudo R CmD javareconf (??? Never put a "sudo" in a script !!!)
-if(!require(devtools)) install.packages("devtools")
-devtools::install_github("", build_vignettes = FALSE)
-update.packages(checkBuilt = TRUE)
