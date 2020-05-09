@@ -52,13 +52,35 @@ ggplot(booktm[1:25,], aes(reorder(name, `1`), `1`)) +
        caption = capt) + 
   tkrtheme
 
+                         
+# Methode 1 (trop long pour 1 computer) 
 library(qgraph)
 # après avoir fait nécessairement as.data.frame.matrix
 e <- qgraph(cor(tdm_pubmed))
 
-        
                          
-# Méthode équivalente et similaire à celle utilisée pour Twitter = non pas library(tm) mais library(tidytext)
+                         
+                         
+#Methode 2 (celle de Twitter)
+# données en igraph
+g <- graph_from_data_frame(..., directed = FALSE, vertices = NULL)
+# en qgraph
+library(qgraph)
+r <- as_adjacency_matrix(g)
+
+Q <- qgraph(r)
+plot(Q)
+qgraph(Q, layout=lay)
+P <- qgraph(Q, minimum = 0.25, cut = 0.4, vsize = 1.5, 
+            legend = FALSE, borders = FALSE, pastel = TRUE)
+
+
+                         
+                         
+ 
+                         
+                         
+# Méthode équivalente de text mining et similaire à celle utilisée pour Twitter = non pas library(tm) mais library(tidytext)
 # Créer un data_frame
 tidytext <- data_frame(line = 1:nrow(tdm_pubmed), text = tdm_pubmed) #### ici!!!! -> tdm_pubmed ou autre ???? 
 #Analyse de fréquence 
