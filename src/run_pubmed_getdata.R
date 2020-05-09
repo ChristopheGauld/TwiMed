@@ -15,10 +15,16 @@ output_file <- "../data/pubmed.Rdata"
 # https://www.ncbi.nlm.nih.gov/pubmed/advanced
 
 search_query <- ("autis*")
-res <- pmQueryTotalCount(search_topic)
+res <- pmQueryTotalCount(search_query)
 search_output <- pmApiRequest(query = search_query, limit = res$total_count, api_key = NULL)
 
 # Toutes caractéristiques transformées en df
 results_pubmed <- convert2df(search_output, dbsource = "pubmed", format="api")
 
 save(results_pubmed, file = output_file)
+
+
+# Apercu du jeu de données avec bibliometrix
+
+results <- biblioAnalysis(results_pubmed)
+summary(results)
