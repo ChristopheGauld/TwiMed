@@ -51,3 +51,23 @@ ggplot(booktm[1:25,], aes(reorder(name, `1`), `1`)) +
   labs(title = "First 25 words most frequents",
        caption = capt) + 
   tkrtheme
+                         
+                         
+# Méthode équivalente et similaire à celle utilisée pour Twitter = non pas library(tm) mais library(tidytext)
+# Créer un data_frame
+tidytext <- data_frame(line = 1:nrow(tdm_pubmed), text = tdm_pubmed) #### ici!!!! -> tdm_pubmed ou autre ???? 
+#Analyse de fréquence 
+tidytext <- tidytext %>%
+  unnest_tokens(word, text) %>%
+  anti_join(stop_words) %>%
+  count(word, sort = TRUE) 
+
+ggplot(tidytext[1:25,], aes(reorder(word, n), n)) + 
+  geom_bar(stat = "identity", fill = "#E3693E") +
+  geom_text(aes(label= as.character(n)), check_overlap = TRUE, size = 4) + 
+  coord_flip() + 
+  xlab(" ") + 
+  ylab("Volume") + 
+  labs(title = "25 mots les plus récurrents avec le package tidytext",
+       caption = capt) + 
+  tkrtheme                     
