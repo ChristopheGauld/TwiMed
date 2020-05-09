@@ -51,7 +51,12 @@ ggplot(booktm[1:25,], aes(reorder(name, `1`), `1`)) +
   labs(title = "First 25 words most frequents",
        caption = capt) + 
   tkrtheme
-                         
+
+library(qgraph)
+# après avoir fait nécessairement as.data.frame.matrix
+e <- qgraph(cor(tdm_pubmed))
+
+        
                          
 # Méthode équivalente et similaire à celle utilisée pour Twitter = non pas library(tm) mais library(tidytext)
 # Créer un data_frame
