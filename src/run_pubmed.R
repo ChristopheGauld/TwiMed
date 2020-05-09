@@ -27,3 +27,27 @@ datatxt.corpus <- tm_map(datatxt.corpus,function(x) removeWords(x, c(stopwords("
 tdm_pubmed = TermDocumentMatrix(datatxt.corpus)
 # save to data folder
 save(tdm_pubmed, file = output_file)
+                         
+#Transformer en matrice 
+tdm_pubmed %>%
+  as.data.frame.matrix() %>%
+  mutate(name = row.names(.)) %>%
+  arrange(desc(`1`))
+                         
+# Visualisation de la matrice dans ggplot : déf du thème 
+tkrtheme <- theme(plot.title=element_text(margin=margin(0,0,20,0), size=20, hjust = 0.5),
+        plot.subtitle = element_text(margin=margin(0,0,20,0), size = 15, hjust = 0.5),
+        panel.background = element_rect(fill = "white"), 
+        panel.grid.major = element_line(colour = "grey"), 
+        plot.margin = margin(20,50,20,50)) 
+                         
+# Plot lui même               
+ggplot(booktm[1:25,], aes(reorder(name, `1`), `1`)) + 
+  geom_bar(stat = "identity", fill = "#E3693E") +
+  geom_text(aes(label= as.character(`1`)), check_overlap = TRUE, size = 4) + 
+  coord_flip() + 
+  xlab(" ") + 
+  ylab("Volume") + 
+  labs(title = "First 25 words most frequents",
+       caption = capt) + 
+  tkrtheme
