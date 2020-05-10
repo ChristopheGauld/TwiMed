@@ -6,7 +6,7 @@
 # version         : 1
 # ==============================================================================
 
-library(dplyr)
+library(tidytext)
 library(igraph)
 library(qgraph)
 
@@ -16,7 +16,7 @@ output_file <- "../data/pubmed_qgraph.Rdata"
 # load the pubmed term document matrix (tdm))
 load(input_file)
 # transform into dataframe describing connections
-matrix_pubmed <- tdm_pubmed %>% as.data.frame.matrix() %>% mutate(name = row.names(.))
+matrix_pubmed <- tidy(tdm_pubmed)
 # create a igraph object
 g <- graph_from_data_frame(matrix_pubmed, directed = FALSE, vertices = NULL)
 # extract the adjacency matrix of the graph
