@@ -11,20 +11,15 @@ library(bibliometrix)
 
 output_file <- "../data/pubmed.Rdata"
 
-# https://www.rdocumentation.org/packages/bibliometrix/versions/2.3.2
-# https://www.ncbi.nlm.nih.gov/pubmed/advanced
-
+# query pubmed
 search_query <- ("autis*")
 res <- pmQueryTotalCount(search_query)
+# collect all the results with the pubmed API
 search_output <- pmApiRequest(query = search_query, limit = res$total_count, api_key = NULL)
-
-# Toutes caractéristiques transformées en df
+# transform pubmed API results into a dataframe
 results_pubmed <- convert2df(search_output, dbsource = "pubmed", format="api")
-
-save(results_pubmed, file = output_file)
-
-
-# Apercu du jeu de données avec bibliometrix
-
+# preview with bibliometrix
 results <- biblioAnalysis(results_pubmed)
 summary(results)
+# save dataframe
+save(results_pubmed, file = output_file)

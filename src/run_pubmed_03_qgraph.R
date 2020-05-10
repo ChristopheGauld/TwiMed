@@ -2,44 +2,25 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for Pubmed data
-# date            : 2020-05-08
+# date            : 2020-05-10
 # version         : 1
 # ==============================================================================
 
-library(tm)
-
-input_file <- "../data/pubmed.Rdata"
-output_file <- "../data/pubmed_tdm.Rdata"
-
-# load the pubmed data
-load(input_file)
-# convert to a corpus
-datatxt.corpus <- Corpus(DataframeSource(data.frame(doc_id=results_pubmed$PMID, text=results_pubmed$AB)))
-# remove punctuations
-datatxt.corpus <- tm_map(datatxt.corpus, removePunctuation)
-# remove white space
-datatxt.corpus <- tm_map(datatxt.corpus, stripWhitespace)
-# lowercase
-datatxt.corpus <- tm_map(datatxt.corpus, tolower)
-# remove common english word, terms used and human brain mapping
-datatxt.corpus <- tm_map(datatxt.corpus,function(x) removeWords(x, c(stopwords("english"))))
-# create corpus table
-tdm_pubmed = TermDocumentMatrix(datatxt.corpus)
-# save to data folder
-save(tdm_pubmed, file = output_file)
-                         
-#Transformer en matrice 
-matrix_pubmed <- tdm_pubmed %>%
-  as.data.frame.matrix() %>%
-  mutate(name = row.names(.))
-                         
-                         
-# Methode = celle de Twitter)
-# données en igraph
+library(dplyr)
 library(igraph)
-g <- graph_from_data_frame(matrix_pubmed, directed = FALSE, vertices = NULL)
-# en qgraph
 library(qgraph)
+
+input_file <- "../data/pubmed_tdm.Rdata"
+output_file <- "../data/pubmed_qgraph.Rdata"
+
+# load the pubmed term document matrix (tdm))
+load(input_file)
+
+# transform into dataframe describing connections
+matrix_pubmed <- tdm_pubmed %>% as.data.frame.matrix() %>% mutate(name = row.names(.))
+
+# create a qgraph object
+g <- graph_from_data_frame(matrix_pubmed, directed = FALSE, vertices = NULL)
 r <- as_adjacency_matrix(g)
 
 Q <- qgraph(r)
@@ -49,15 +30,6 @@ P <- qgraph(Q, minimum = 0.25, cut = 0.4, vsize = 1.5,
             legend = FALSE, borders = FALSE, pastel = TRUE)
 
 
-                         
-                         
- 
-           
-                         
-                         
-                         
-                         
-                         
 # Méthode équivalente de text mining et similaire à celle utilisée pour Twitter = non pas library(tm) mais library(tidytext)
 # Créer un data_frame
 tidytext <- data_frame(line = 1:nrow(tdm_pubmed), text = tdm_pubmed) #### ici!!!! -> tdm_pubmed ou autre ???? 
