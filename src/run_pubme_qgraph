@@ -6,21 +6,10 @@
 # version         : 1
 # ==============================================================================
 
-###########
-########### Matrice de 0 et de 1  (1 colonne = 1 mot   / 1 ligne = 1 article)  
-###########
 
-# fonction de Idiese (voir clean_matrix_twitter) depuis data.frame (pu) (!!!!!!! TITRE ICI)
-pubm <- results_pubmed$TI
-View(pubm)
-J=as.data.frame(pubm)
-View(J)
 
-# nettoyage des mots
-results_pubmed$stripped_text <- gsub("http.*","",  results_pubmed$TI)
-results_pubmed$stripped_text <- gsub("https.*","", results_pubmed$stripped_text)
-results_pubmed$stripped_text <- gsub("amp","", results_pubmed$stripped_text)
-results_pubmed$stripped_text <- gsub("auti*","", results_pubmed$stripped_text)
+load(results_pubmed)
+
 
 # TEXT MINING
 library(tidytext)
@@ -35,6 +24,36 @@ words$word = words$word %>%
   str_to_lower()
 unique.words = words %>%
   count(word, sort = TRUE)
+
+
+###########
+########### QGRAPH depuis results_pubmed (voir getdata)
+###########
+
+
+g <- graph_from_data_frame(unique.words, directed = FALSE, vertices = NULL)
+r <- as_adjacency_matrix(g) ## si on veut 
+Q <- qgraph(r)
+
+
+
+###########
+########### Matrice de 0 et de 1  (1 colonne = 1 mot   / 1 ligne = 1 article)  
+###########
+
+# fonction de Idiese (voir fichier = run_clean_matrix_twitter) (!!!!!!! TITRE ICI)
+pubm <- results_pubmed$TI
+View(pubm)
+J=as.data.frame(pubm)
+View(J)
+
+# nettoyage des mots
+results_pubmed$stripped_text <- gsub("http.*","",  results_pubmed$TI)
+results_pubmed$stripped_text <- gsub("https.*","", results_pubmed$stripped_text)
+results_pubmed$stripped_text <- gsub("amp","", results_pubmed$stripped_text)
+results_pubmed$stripped_text <- gsub("auti*","", results_pubmed$stripped_text)
+
+
 
 
 # Matrice O et 1
@@ -61,16 +80,5 @@ write.table(Jdiese,"tweet.binaire.1000.#",sep="\t")
 
 
 
-
-###########
-########### QGRAPH depuis results_pubmed (voir getdata)
-###########
-
-
-g <- graph_from_data_frame(results_pubmed, directed = FALSE, vertices = NULL)
-r <- as_adjacency_matrix(g) ## si on veut 
-Q <- qgraph(r)
-P <- qgraph(Q, minimum = 0.25, cut = 0.4, vsize = 1.5, 
-            legend = FALSE, borders = FALSE)
 
 
