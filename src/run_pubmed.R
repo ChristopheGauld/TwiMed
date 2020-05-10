@@ -29,48 +29,22 @@ tdm_pubmed = TermDocumentMatrix(datatxt.corpus)
 save(tdm_pubmed, file = output_file)
                          
 #Transformer en matrice 
-tdm_pubmed %>%
+matrix_pubmed <- tdm_pubmed %>%
   as.data.frame.matrix() %>%
-  mutate(name = row.names(.)) %>%
-  arrange(desc(`1`))
-                         
-# Visualisation de la matrice dans ggplot : déf du thème 
-tkrtheme <- theme(plot.title=element_text(margin=margin(0,0,20,0), size=20, hjust = 0.5),
-        plot.subtitle = element_text(margin=margin(0,0,20,0), size = 15, hjust = 0.5),
-        panel.background = element_rect(fill = "white"), 
-        panel.grid.major = element_line(colour = "grey"), 
-        plot.margin = margin(20,50,20,50)) 
-                         
-# Plot lui même               
-ggplot(booktm[1:25,], aes(reorder(name, `1`), `1`)) + 
-  geom_bar(stat = "identity", fill = "#E3693E") +
-  geom_text(aes(label= as.character(`1`)), check_overlap = TRUE, size = 4) + 
-  coord_flip() + 
-  xlab(" ") + 
-  ylab("Volume") + 
-  labs(title = "First 25 words most frequents",
-       caption = capt) + 
-  tkrtheme
-
-                         
-# Methode 1 (trop long pour 1 computer) 
-library(qgraph)
-# après avoir fait nécessairement as.data.frame.matrix
-e <- qgraph(cor(tdm_pubmed))
-
+  mutate(name = row.names(.))
                          
                          
-                         
-#Methode 2 (celle de Twitter)
+# Methode = celle de Twitter)
 # données en igraph
-g <- graph_from_data_frame(..., directed = FALSE, vertices = NULL)
+library(igraph)
+g <- graph_from_data_frame(matrix_pubmed, directed = FALSE, vertices = NULL)
 # en qgraph
 library(qgraph)
 r <- as_adjacency_matrix(g)
 
 Q <- qgraph(r)
 plot(Q)
-qgraph(Q, layout=lay)
+qgraph(Q)
 P <- qgraph(Q, minimum = 0.25, cut = 0.4, vsize = 1.5, 
             legend = FALSE, borders = FALSE, pastel = TRUE)
 
@@ -78,6 +52,10 @@ P <- qgraph(Q, minimum = 0.25, cut = 0.4, vsize = 1.5,
                          
                          
  
+           
+                         
+                         
+                         
                          
                          
 # Méthode équivalente de text mining et similaire à celle utilisée pour Twitter = non pas library(tm) mais library(tidytext)
@@ -98,3 +76,32 @@ ggplot(tidytext[1:25,], aes(reorder(word, n), n)) +
   labs(title = "25 mots les plus récurrents avec le package tidytext",
        caption = capt) + 
   tkrtheme                     
+
+          
+#####
+### NOTES SUPPLEMENTAIRES
+####
+                         
+                         # Visualisation de la matrice dans ggplot : déf du thème 
+tkrtheme <- theme(plot.title=element_text(margin=margin(0,0,20,0), size=20, hjust = 0.5),
+        plot.subtitle = element_text(margin=margin(0,0,20,0), size = 15, hjust = 0.5),
+        panel.background = element_rect(fill = "white"), 
+        panel.grid.major = element_line(colour = "grey"), 
+        plot.margin = margin(20,50,20,50)) 
+                         
+# Plot lui même               
+ggplot(matrix_pubmed[1:25,], aes(reorder(name, `1`), `1`)) +        #### que remplacer à la place de '1' ????
+  geom_bar(stat = "identity", fill = "#E3693E") +
+  geom_text(aes(label= as.character(`1`)), check_overlap = TRUE, size = 4) + 
+  coord_flip() + 
+  xlab(" ") + 
+  ylab("Volume") + 
+  labs(title = "First 25 words most frequents",
+       caption = capt) + 
+  tkrtheme
+
+                         
+# Methode 1 (trop long pour 1 computer) 
+library(qgraph)
+# après avoir fait nécessairement as.data.frame.matrix
+e <- qgraph(cor(tdm_pubmed))
