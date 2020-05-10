@@ -1,0 +1,76 @@
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : processing pipeline for Pubmed data
+# date            : 2020-05-10
+# version         : 1
+# ==============================================================================
+
+###########
+########### Matrice de 0 et de 1  (1 colonne = 1 mot   / 1 ligne = 1 article)  
+###########
+
+# fonction de Idiese (voir clean_matrix_twitter) depuis data.frame (pu) (!!!!!!! TITRE ICI)
+pubm <- results_pubmed$TI
+View(pubm)
+J=as.data.frame(pubm)
+View(J)
+
+# nettoyage des mots
+results_pubmed$stripped_text <- gsub("http.*","",  results_pubmed$TI)
+results_pubmed$stripped_text <- gsub("https.*","", results_pubmed$stripped_text)
+results_pubmed$stripped_text <- gsub("amp","", results_pubmed$stripped_text)
+results_pubmed$stripped_text <- gsub("auti*","", results_pubmed$stripped_text)
+
+# TEXT MINING
+library(tidytext)
+words <- results_pubmed %>%
+  select(stripped_text) %>%
+  unnest_tokens(word, stripped_text)
+data("stop_words")
+stop_words = rbind (stop_words,"autism","amp")
+words <- words %>% 
+  anti_join(stop_words)
+words$word = words$word %>%
+  str_to_lower()
+unique.words = words %>%
+  count(word, sort = TRUE)
+
+
+# Matrice O et 1
+library(stringr)
+library(tidytext)
+Jdiese = J
+Jdiese[,2:101]=0
+nTweetDiese=NA
+compteur=1
+split = str_split(Jdiese[,1]," ")
+for (j in unique.words$word[1:100]){
+  compteur = compteur + 1
+  for (i in 1:dim(Jdiese)[1]){
+    if( j %in% split[[i]] | paste("#",j,sep = "") %in% split[[i]]){ Jdiese[i,compteur] = 1
+    }
+  }
+  names(Jdiese)[compteur]=j
+  nTweetDiese[compteur]=sum(Jdiese[,compteur])
+  print(compteur)
+}
+View(Jdiese)
+write.table(Jdiese,"tweet.binaire.1000.#",sep="\t")
+
+
+
+
+
+###########
+########### QGRAPH depuis results_pubmed (voir getdata)
+###########
+
+
+g <- graph_from_data_frame(results_pubmed, directed = FALSE, vertices = NULL)
+r <- as_adjacency_matrix(g) ## si on veut 
+Q <- qgraph(r)
+P <- qgraph(Q, minimum = 0.25, cut = 0.4, vsize = 1.5, 
+            legend = FALSE, borders = FALSE)
+
+
