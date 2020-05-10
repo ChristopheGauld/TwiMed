@@ -15,21 +15,24 @@ output_file <- "../data/pubmed_qgraph.Rdata"
 
 # load the pubmed term document matrix (tdm))
 load(input_file)
-
 # transform into dataframe describing connections
 matrix_pubmed <- tdm_pubmed %>% as.data.frame.matrix() %>% mutate(name = row.names(.))
-
-# create a qgraph object
+# create a igraph object
 g <- graph_from_data_frame(matrix_pubmed, directed = FALSE, vertices = NULL)
+# extract the adjacency matrix of the graph
 r <- as_adjacency_matrix(g)
-
+# create a qgraph object
 Q <- qgraph(r)
+# plot the graph
 plot(Q)
+# ???
 qgraph(Q)
+# ???
 P <- qgraph(Q, minimum = 0.25, cut = 0.4, vsize = 1.5, 
             legend = FALSE, borders = FALSE, pastel = TRUE)
 
-
+### Suite à enlever ou à faire fonctionner?
+#
 # Méthode équivalente de text mining et similaire à celle utilisée pour Twitter = non pas library(tm) mais library(tidytext)
 # Créer un data_frame
 tidytext <- data_frame(line = 1:nrow(tdm_pubmed), text = tdm_pubmed) #### ici!!!! -> tdm_pubmed ou autre ???? 
