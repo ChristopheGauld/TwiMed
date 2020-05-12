@@ -1,7 +1,7 @@
 
 
 ########
-######## Used by source(~) in run_twitter_02
+######## Used by source(~) in run_twitter_03 to create boostrap
 ########
 
 
