@@ -21,19 +21,19 @@ output_file <- "data/pubmed_qgraph.Rdata"
 load(input_file)
 
 # drop papers without keyword
-keyword.pubmed <- results_pubmed[ results_pubmed$DE != “” , c("PMID","DE”)]
+keyword_pubmed <- results_pubmed[ results_pubmed$DE != “” , c("PMID","DE”)]
 
 
 # 1. Textmining
 # split keywords of each paper
-tidy.pubmed <- unnest_tokens(keyword.pubmed, keyword, DE ,token = stringr::str_split, pattern = ";")
+tidy_pubmed <- unnest_tokens(keyword_pubmed, keyword, DE ,token = stringr::str_split, pattern = ";")
 # count keywords
-tidy.pubmed2 <- dplyr::count(tidy.pubmed, PMID, keyword)
+tidy_pubmed2 <- dplyr::count(tidy_pubmed, PMID, keyword)
 
 
 # 2. Graph
 # create a igraph object
-g <- graph_from_data_frame(tidy.pubmed2, directed = FALSE, vertices = NULL)
+g <- graph_from_data_frame(tidy_pubmed2, directed = FALSE, vertices = NULL)
 # extract the adjacency matrix of the graph
 r <- as_adjacency_matrix(g)
 # create a qgraph object
@@ -69,20 +69,20 @@ output_file <- "data/pubmed_qgraph.Rdata"
 load(input_file)
 
 # 1. Textmining
-# Keep onnly abstracts and PMID
-ab.pubmed = results_pubmed[,c("PMID","AB")]
-# split words of each abstract
-tidy.pubmed = unnest_tokens(ab.pubmed,word, AB)
+# keep onnly abstracts and PMID
+ab_pubmed = results_pubmed[,c("PMID","AB")]
+# split abstracts into words
+tidy_pubmed = unnest_tokens(ab_pubmed, word, AB)
 # remove common words 
 data("stop_words")
-tidy.pubmed2 <- dplyr::anti_join(tidy.pubmed,stop_words)
+tidy_pubmed2 <- dplyr::anti_join(tidy_pubmed,stop_words)
 # count the number of each word in each abstract
-tidy.pubmed3 <- dplyr::count(tidy.pubmed2, PMID, word) # 112 137 association mots-tweet
+tidy_pubmed3 <- dplyr::count(tidy_pubmed2, PMID, word)
 
 
 # 2. Graph
 # create a igraph object
-g <- graph_from_data_frame(tidy.pubmed3, directed = FALSE, vertices = NULL)
+g <- graph_from_data_frame(tidy_pubmed3, directed = FALSE, vertices = NULL)
 # extract the adjacency matrix of the graph
 r <- as_adjacency_matrix(g)
 # create a qgraph object
