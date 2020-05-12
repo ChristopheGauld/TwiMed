@@ -2,7 +2,7 @@
 # coding=utf-8
 # ==============================================================================
 # description     : preprocess Pubmed data into a Term Document Matrix
-# date            : 2020-05-08
+# date            : 2020-05-12
 # version         : 1
 # ==============================================================================
 
@@ -25,5 +25,7 @@ datatxt.corpus <- tm_map(datatxt.corpus, tolower)
 datatxt.corpus <- tm_map(datatxt.corpus,function(x) removeWords(x, c(stopwords("english"))))
 # create corpus table
 tdm_pubmed = TermDocumentMatrix(datatxt.corpus)
+# Convertir le TDM en matrice numérique avec tm (les variables sont encore les PMID d'article)
+matrix_pubmed <- as.matrix(tdm_pubmed)
 # save to data folder
 save(tdm_pubmed, file = output_file)
