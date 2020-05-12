@@ -9,7 +9,7 @@
 library(tm)
 
 input_file <- "../data/pubmed.Rdata"
-output_file <- "../data/pubmed_tdm.Rdata"
+output_file <- "../data/pubmed_matrix.Rdata"
 
 # load the pubmed data
 load(input_file)
@@ -25,7 +25,7 @@ datatxt.corpus <- tm_map(datatxt.corpus, tolower)
 datatxt.corpus <- tm_map(datatxt.corpus,function(x) removeWords(x, c(stopwords("english"))))
 # create corpus table
 tdm_pubmed <- TermDocumentMatrix(datatxt.corpus)
-# Convertir le TDM en matrice numérique avec tm (les variables sont encore les PMID d'article)
+# convert to a matrix
 matrix_pubmed <- as.matrix(tdm_pubmed)
 # save to data folder
-save(tdm_pubmed, file = output_file)
+save(matrix_pubmed, file = output_file)
