@@ -26,7 +26,8 @@ output_file <- "data/pubmed_qgraph.Rdata"
 load(input_file)
 
 # Sélectionner les variables d'intérêt (les keywords et les PMID)
-keyword.pubmed <- results_pubmed[,c("PMID","DE")]
+keyword.pubmed <- results_pubmed[ results_pubmed$DE != “” , c("PMID","DE”)]
+
 
 # Nettoyage du texte avec tidytext et organisation en objet tidy (à la place du programme 2) ####
 # On sépare les mots clé de chaque article (qui sont séparés par un point virgule dans results_pubmed).
