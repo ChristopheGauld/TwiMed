@@ -66,7 +66,7 @@ plotData <- gather(results2,hashtag,occurency
 
 ## And plot the data
 library(ggplot2)
-source("/Users/julien/Documents/Médecine/Université/Outils informatiques/R/geom_flat_violin.R")
+source("/geom_flat_violin.R") # cf run_twitter_03b
 p <- ggplot(plotData,aes(x=plotData[,1],y=plotData[,2], 
                           fill = plotData[,1], colour = plotData[,1]),trim = TRUE)+
   geom_flat_violin(position = position_nudge(x = .3, y = 0), adjust = 1)+
