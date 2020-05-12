@@ -6,40 +6,34 @@
 # version         : 2 (Ju)
 # ==============================================================================
 
+###### Graph of keywords
 
-
-### Deuxième version : utiliser directement le TDM du programme numéro 2, en le convertissant simplement 
-# au format matrice standard de R avec as.matrix(), après
-
-# Réinitialiser l'espace de travail
 rm(list=ls())
-# Charger les packages
+
 library(tidytext)
 library(igraph)
 library(qgraph)
 
-# Définir l'espace de travail, nommer les input et output
-input_file <- "data/pubmed.Rdata" # Le premier dataframe du prg 1
+input_file <- "data/pubmed.Rdata"
 output_file <- "data/pubmed_qgraph.Rdata"
 
 # load the pubmed dataframe
 load(input_file)
 
-# Sélectionner les variables d'intérêt (les keywords et les PMID)
+# drop papers without keyword
 keyword.pubmed <- results_pubmed[ results_pubmed$DE != “” , c("PMID","DE”)]
 
 
-# Nettoyage du texte avec tidytext et organisation en objet tidy (à la place du programme 2) ####
-# On sépare les mots clé de chaque article (qui sont séparés par un point virgule dans results_pubmed).
+# 1. Textmining
+# split keywords of each paper
 tidy.pubmed <- unnest_tokens(keyword.pubmed, keyword, DE ,token = stringr::str_split, pattern = ";")
-# Compter le nombre d'occurence de chaque mot clé par article (par définition normalement une seule fois)
-tidy.pubmed3 <- dplyr::count(tidy.pubmed, PMID, keyword)
+# count keywords
+tidy.pubmed2 <- dplyr::count(tidy.pubmed, PMID, keyword)
 
 
-# Faire un qgraph en créant d'abord un igraph à l'aide d'un objet tidy, puis une matrice adjacente (économise 
-# énormément de taille ++++ puis un objet qgraph)
+# 2. Graph
 # create a igraph object
-g <- graph_from_data_frame(tidy.pubmed3, directed = FALSE, vertices = NULL)
+g <- graph_from_data_frame(tidy.pubmed2, directed = FALSE, vertices = NULL)
 # extract the adjacency matrix of the graph
 r <- as_adjacency_matrix(g)
 # create a qgraph object
@@ -58,42 +52,35 @@ save(Q, file = output_file)
 
 
 ##############
-############## MEME QUE PRÉCÉDENT MAIS AVEC ABSTRACT AU LIEU DE MESH
+############## Graph of abstract's words
 ##############
 
 
-### Deuxième version : utiliser directement le TDM du programme numéro 2, en le convertissant simplement 
-# au format matrice standard de R avec as.matrix(), après
-
-# Réinitialiser l'espace de travail
 rm(list=ls())
-# Charger les packages
+
 library(tidytext)
 library(igraph)
 library(qgraph)
 
-# Définir l'espace de travail, nommer les input et output
-input_file <- "data/pubmed.Rdata" # Le premier dataframe du prg 1
+input_file <- "data/pubmed.Rdata"
 output_file <- "data/pubmed_qgraph.Rdata"
 
 # load the pubmed dataframe
 load(input_file)
 
-# Sélectionner les variables d'intérêt (les abstracts et les PMID)
+# 1. Textmining
+# Keep onnly abstracts and PMID
 ab.pubmed = results_pubmed[,c("PMID","AB")]
-rownames(ab.pubmed) = ab.pubmed$PMID
-
-# Nettoyage du texte avec tidytext et organisation en objet tidy (à la place du programme 2) ####
+# split words of each abstract
 tidy.pubmed = unnest_tokens(ab.pubmed,word, AB)
-# Enlever les mots courants
+# remove common words 
 data("stop_words")
 tidy.pubmed2 <- dplyr::anti_join(tidy.pubmed,stop_words)
-# Compter le nombre d'occurence de chaque mot par abstract
+# count the number of each word in each abstract
 tidy.pubmed3 <- dplyr::count(tidy.pubmed2, PMID, word) # 112 137 association mots-tweet
 
 
-# Faire un qgraph en créant d'abord un igraph à l'aide d'un objet tidy, puis une matrice adjacente (économise 
-# énormément de taille ++++ puis un objet qgraph)
+# 2. Graph
 # create a igraph object
 g <- graph_from_data_frame(tidy.pubmed3, directed = FALSE, vertices = NULL)
 # extract the adjacency matrix of the graph
