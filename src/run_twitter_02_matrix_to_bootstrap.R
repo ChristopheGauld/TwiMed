@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # coding=utf-8
 # ==============================================================================
-# description     : processing pipeline for Twitter data
+# description     : processing pipeline for bootstrat Twitter data
 # date            : 2020-05-12
 # version         : 2 (Ju)
 # ==============================================================================
