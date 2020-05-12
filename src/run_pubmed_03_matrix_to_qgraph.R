@@ -12,7 +12,6 @@ rm(list=ls())
 library(qgraph)
 
 # Définir l'espace de travail, nommer les input et output
-setwd("~/Documents/Amis/Christophe/Twimed")
 input_file <- "data/pubmed_matrix.Rdata"
 output_file <- "data/pubmed_qgraph.Rdata"
 
