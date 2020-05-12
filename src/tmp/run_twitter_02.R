@@ -2,14 +2,9 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for Twitter data (old TwiMed_OK.R)
-# date            : 2020-04-25
-# version         : 1
+# date            : 2020-05-12
+# version         : 2
 # ==============================================================================
-
-
-#### We draw four graph 
-# qgraph with nodes 
-# 3 graphs for 3 measures of centrality
 
 
 
