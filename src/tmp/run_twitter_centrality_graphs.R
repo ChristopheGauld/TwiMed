@@ -83,14 +83,23 @@ lines(x = c(0,2000),y=c(0,2000))
 #############
 
 library(qgraph)
-g=Idiese[2:101]
-Names = names(Idiese)[2:101]
+g <- Idiese[2:101]
+Names <- names(Idiese)[2:101]
 Names
 e <- qgraph(cor(g))
-deg = centrality(e)$OutDegree
-bet = centrality(e)$Betweenness
-clo = centrality(e)$Closeness
+deg <- centrality(e)$OutDegree
+bet <- centrality(e)$Betweenness
+clo <- centrality(e)$Closeness
 
+# matrix ponderation 
+S <- getWmat(e,directed = FALSE)
+# centrality and clustering
+centralityPlot(S, labels = Labels, scale = c("z-scores", "raw", "raw0","relative"),
+               include =c("Degree","Strength","OutDegree","InDegree","OutStrength",
+                          "InStrength"), theme_bw = TRUE, print = TRUE, verbose = TRUE,
+               standardized, relative, weighted = TRUE,signed = TRUE,
+               orderBy = "default", decreasing = FALSE)
+clusteringPlot(S, scale = c("z-scores", "raw", "raw0","relative"), labels , signed = FALSE, theme_bw = TRUE, print = TRUE,verbose = TRUE)
 
 
 #############
