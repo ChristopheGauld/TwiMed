@@ -24,7 +24,7 @@ datatxt.corpus <- tm_map(datatxt.corpus, tolower)
 # remove common english word, terms used and human brain mapping
 datatxt.corpus <- tm_map(datatxt.corpus,function(x) removeWords(x, c(stopwords("english"))))
 # create corpus table
-tdm_pubmed = TermDocumentMatrix(datatxt.corpus)
+tdm_pubmed <- TermDocumentMatrix(datatxt.corpus)
 # Convertir le TDM en matrice numérique avec tm (les variables sont encore les PMID d'article)
 matrix_pubmed <- as.matrix(tdm_pubmed)
 # save to data folder
