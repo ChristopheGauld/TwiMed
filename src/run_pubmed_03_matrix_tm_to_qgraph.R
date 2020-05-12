@@ -8,31 +8,24 @@
 
 
 rm(list=ls())
-# Charger les packages
+
 library(qgraph)
 
-# Définir l'espace de travail, nommer les input et output
 input_file <- "data/pubmed_matrix.Rdata"
 output_file <- "data/pubmed_qgraph.Rdata"
 
-# load the pubmed term document matrix (tdm))
+# load the pubmed term document matrix (matrix format)
 load(input_file)
 
-# Transposer la matrice (pour avoir les word en variable et les PMID en ligne)
+# transpose the matrix 
 matrix_pubmed2 <- t(matrix_pubmed)
-View(matrix_pubmed2)
-# Réduire la taille de la matrice (100 mots et 50 articles, choix inadequat : premier arrivé premier servi)
-# pour ne pas faire planter mon ordinateur.
-matrix_pubmed3 <- matrix_pubmed2[1:50,1:100]
 
-# Enregistrer les words du réseau dans un vecteur "word"
-word <- colnames(matrix_pubmed3)
-# Calculer la matrice de corrélation de matrix_pubmed
-cor_pubmed <- cor(matrix_pubmed3)
-# Ploter le qgraph avec un layout "spring" et l'enregistrer en même temps dans l'objet "e"
+# compute a correlation matrix
+cor_pubmed <- cor(matrix_pubmed2)
+# plot the graph
 e <- qgraph(cor_pubmed, 
        layout = "spring",labels=TRUE,posCol = "blue", negCol = "red",
-       nodeNames=word, # pour les label de la légende
+       nodeNames = colnames(cor_pubmed),
        legend = TRUE)
 
 # save to data folder
