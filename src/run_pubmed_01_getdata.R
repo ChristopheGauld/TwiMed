@@ -29,5 +29,6 @@ save(results_pubmed, file = output_file)
 # Same with RISmed
 library(RISmed)
 res <- EUtilsSummary("autis*", type="esearch", db="pubmed", datetype='pdat', retmax=500) # "autism[Title/Abstract] AND 2015:2020[DP]"
-QueryCount(res)
-search_rismed <- EUtilsGet(res,type="efetch",db="pubmed")
+D <- EUtilsGet(res)
+results_pubmed <- pubmed2df(D)
+results <- biblioAnalysis(co)
