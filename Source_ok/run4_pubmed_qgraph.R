@@ -11,19 +11,19 @@ load(input_file)
 
 # Pour réduire la taille de la matrice à 300*300 au lieu de 13000*13000 pour pouvoir plotter en prenant les 300 mots les plus fréquents
 # Exécuter prog1 d'abord pour avoir l'objet tidy.pubmed2
-nbMots <- 300
-freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word),nbMots, n)
+#nbMots <- 300
+#freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word),nbMots, n)
 
 matrix_reduite <- matrix_pubmed[,freq_word$word]
 cor_matrix_reduite <- cor(matrix_reduite)
-group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
-group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
-group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
-group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
-group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
+#group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
+#group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
+#group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
+#group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
+#group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
 # Définition de la matrice de corrélation de taille normale
-# cor_matrix <- cor(matrix_pubmed)
+cor_matrix <- cor(matrix_pubmed)
 
 # create a qgraph object
 Q <- qgraph(cor_matrix_reduite, layout = "spring", posCol = "blue", negCol = "red",
