@@ -14,8 +14,8 @@ load(input_file)
 #nbMots <- 300
 #freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word),nbMots, n)
 
-matrix_reduite <- matrix_pubmed[,freq_word$word]
-cor_matrix_reduite <- cor(matrix_reduite)
+#matrix_reduite <- matrix_pubmed[,freq_word$word]
+#cor_matrix_reduite <- cor(matrix_reduite)
 #group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
 #group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
 #group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
