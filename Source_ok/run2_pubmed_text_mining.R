@@ -9,9 +9,9 @@ output_file <- "data/pubmed_tdm.Rdata"
 
 # load the pubmed dataframe
 load(input_file)
-View(results_pubmed)
+
 # select abstracts and PMID
-ab.pubmed <- results_pubmed[,c("DI","AB")]
+ab.pubmed <- results_pubmed[,c("PMID","AB")]
 
 # split abstracts into words
 tidy.pubmed <- unnest_tokens(ab.pubmed,word, AB)
@@ -24,11 +24,11 @@ tidy.pubmed2 <- tidy.pubmed2[!str_detect(tidy.pubmed2$word,"autis"),]
 tidy.pubmed2 <- tidy.pubmed2[!str_detect(tidy.pubmed2$word,"disorder"),]
 
 # count frequency of each word in each abstract
-tidy.pubmed3 <- dplyr::count(tidy.pubmed2, DI, word)
-View(tidy.pubmed3)
+tidy.pubmed3 <- dplyr::count(tidy.pubmed2, PMID, word)
+
 # convert to a dtm
-dtm_pubmed <- cast_dtm(tidy.pubmed3, DI, word, n)
-View(dtm_pubmed)
+dtm_pubmed <- cast_dtm(tidy.pubmed3, PMID, word, n)
+
 # save
 save(dtm_pubmed, file = output_file)
 
