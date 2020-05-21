@@ -10,7 +10,7 @@ output_file <- "data/pubmed.Rdata"
 # pubmed extraction
 search_query <- ("autis*")
 res <- pmQueryTotalCount(search_query)
-search_output <- pmApiRequest(query = search_query, # limit = 1000 #res$total_count
+search_output <- pmApiRequest(query = search_query,res$total_count # limit = 1000 
                               , api_key = NULL)
 
 # convert to a dataframe
