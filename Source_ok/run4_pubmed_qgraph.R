@@ -29,10 +29,11 @@ cor_matrix <- cor(matrix_pubmed)
 Q <- qgraph(cor_matrix, layout = "spring", posCol = "blue", negCol = "red",
            nodeNames = colnames(cor_matrix), legend.cex = 0.2,
            groups = group,
-           minimum = .15, # Ne pas afficher les edges avec faible corrélation pour faciliter le chargement graphique
-           repulsion = 100, # Augmenter la distance entre les noeuds pour améliorer la visualisation en "cluster"
+           #minimum = .15, # Ne pas afficher les edges avec faible corrélation pour faciliter le chargement graphique
+           #repulsion = 100, # Augmenter la distance entre les noeuds pour améliorer la visualisation en "cluster"
            legend.mode = "groups",
-           pastel = TRUE)
+           threshold = "bonferroni",sampleSize = nrow(cor_matrix_reduite), alpha = 0.05) # Pour ne prendre en compte que les corrélations statistiquement significatifs, en tenant compte de l'inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
+           #pastel = TRUE,
            #labels=TRUE)
            #vsize = taille,
            #color = color,
