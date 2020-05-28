@@ -203,6 +203,3 @@ k <- plot.igraph(c, layout=lay,
 laygraphop <- layout_with_graphopt(g)
 laygem <- layout_with_gem(g)
 laylgl <- layout_with_lgl(g)
-
-
-

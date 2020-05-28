@@ -23,5 +23,3 @@ results <- biblioAnalysis(results_pubmed)
 summary(results)
 # save dataframe
 save(results_pubmed, file = output_file)
-
-

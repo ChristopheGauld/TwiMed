@@ -80,6 +80,3 @@ p <- ggplot(plotData,aes(x=plotData[,1],y=plotData[,2],
 pdf(file = output_file)
 p
 dev.off()
-
-
-

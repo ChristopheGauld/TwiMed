@@ -135,4 +135,3 @@ write.table(Idiese,"tweet.binaire.1000.#",sep="\t")
 nTweetDiese = nTweetDiese[-1]
 plot(nTweetDiese,unique.words$n[1:100],ylim = c(0,2200),xlim = c(0,1600))
 lines(x = c(0,2000),y=c(0,2000))
-

@@ -189,9 +189,3 @@ for (j in unique.words$word[1:100]){
 }
 View(Jdiese)
 write.table(Jdiese,"tweet.binaire.1000.#",sep="\t")
-
-
-
-
-
-
