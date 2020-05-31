@@ -1,3 +1,11 @@
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : processing pipeline to create matrix
+# date            : 2020-05-30
+# version         : 2 (Ju)
+# ==============================================================================
+
 
 setwd("~/Desktop/R/TwiMed/DATAS")
 
