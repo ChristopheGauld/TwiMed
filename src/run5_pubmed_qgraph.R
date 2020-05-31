@@ -1,3 +1,13 @@
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : processing pipeline to create matrix
+# date            : 2020-05-30
+# version         : 3
+# ==============================================================================
+
+
+
 rm(list=ls())
 
 setwd("~/Documents/Amis/Christophe/Twimed")
