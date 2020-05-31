@@ -1,0 +1,706 @@
+
+
+##### RAINCLOUD
+
+
+
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : How to make a nice Twitter Raincloud 
+# date            : 2020-04-24
+# version         : 1
+# ==============================================================================
+
+
+
+## RainCloud
+
+
+
+## Load the required libraries
+library("ggplot2") 
+library("tidyr") 
+library("dplyr") 
+library("cowplot") 
+library("ggsci") 
+source("halfViolinPlots.R") 
+
+## Load the data
+inputData <- read.delim2("Wordstwitter.csv",
+                         header = TRUE,
+                         sep = ';',
+                         quote = '',
+                         check.names = FALSE,
+                         dec = ',')
+
+## Select the columns and reorder the data if needed
+inputData <- select(inputData,c("awareness","time","son","love","child","acceptance","health","education","school","understanding","limitations","information","read","neurodiversity","challenges","families"))
+
+## Reformat the data for ggplot
+plotData <- gather(inputData,
+                   condition,
+                   value,
+                   colnames(inputData),
+                   factor_key = TRUE) %>%
+  filter(value != "") 
+
+## And plot the data
+ggplot(plotData, aes(x = condition, y = value, fill = condition, color = condition)) +
+  ggtitle("Bootstrap of the unique words count find in tweets") +
+  ylab("Assigned probability score") +
+  xlab("Top sixteen words") +
+  theme_cowplot() +
+  scale_shape_identity() +
+  theme(legend.position = "none",
+        plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15),
+        axis.text = element_text(size = 15),
+        axis.text.x = element_text(angle = 0, 
+                                   hjust = 0,
+                                   vjust = 0)) +
+  scale_color_simpsons() +
+  scale_fill_simpsons() +
+  geom_point(position = position_jitter(0.15), 
+             size = 1, 
+             alpha = 1, 
+             aes(shape = 16)) +
+  geom_flat_violin(position = position_nudge(x = 0.25, y = 0),
+                   adjust = 3,
+                   alpha = 0.4, 
+                   trim = TRUE, 
+                   scale = "width") +
+  geom_boxplot(aes(x = as.numeric(condition) + 0.25, y = value), 
+               notch = TRUE, 
+               width = 0, 
+               varwidth = FALSE, 
+               outlier.shape = NA, 
+               alpha = 0.3, 
+               colour = "black", 
+               show.legend = FALSE) +
+  coord_flip()
+
+
+
+
+
+
+
+
+#### TIMELINES
+
+
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : Most frequent tweets= Timelines 
+# date            : 2020-04-24
+# version         : 1
+# ==============================================================================
+
+
+
+
+
+##### Most frequent
+cleaned_tweet_words %>%
+  ts_plot("hours") +
+  ggplot2::theme_minimal() +
+  ggplot2::theme(plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(
+    x = NULL, y = NULL,
+    title = "Frequency of #autism Twitter statuses from past 9 days",
+    subtitle = "Aggregated using three-hour intervals")
+
+library(plotly)
+ts_plot(autism, slider = TRUE)
+ts_info(autism)
+
+#of the year
+tmls <- search_tweets("#autism", n = 10000, include_rts = FALSE,retryonratelimit = TRUE )
+cleaned_tweet_words %>%
+  dplyr::filter(created_at > "2012-01-01") %>%
+  ts_plot("weeks") +
+  ggplot2::geom_point() +
+  ggplot2::theme_light() +
+  ggplot2::theme(
+    legend.title = ggplot2::element_blank(),
+    legend.position = "bottom",
+    plot.title = ggplot2::element_text(face = "bold")) +
+  ggplot2::labs(x = NULL, y = NULL,
+                title = "Frequency of #autism tweets",         subtitle = "Aggregated by weeks from October 2019" )
+
+
+
+
+
+
+
+
+
+
+
+
+##### Geolocalisation
+
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : Geolocalisation from Twitter
+# date            : 2020-04-24
+# version         : 1
+# ==============================================================================
+
+
+### retrieve datas from Twitter
+
+#### Geolocalisation
+autist <- lat_lng(autis)
+par(mar = c(0, 0, 0, 0))
+
+
+#chargement carte
+maps::map('world',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80) )
+with(autist, points(lng, lat, pch = 20, cex = .25, col = rgb(0, .3, .7, .75)))
+(ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group)) +     coord_fixed(1.3)
+  par(mar = c(0, 0, 0, 0)))
+
+
+
+## search for 10,000 tweets sent from the US
+autist <- search_tweets("lang:en", geocode = lookup_coords("usa"), n = 10000)
+autist <- lat_lng(autist)
+par(mar = c(0, 0, 0, 0))
+maps::map("state", lwd = .25,col="grey",fill=TRUE)
+
+
+
+##maps::map('usa',col="grey", fill=TRUE, bg="white", lwd=0.05, mar=rep(0,4),border=0, ylim=c(-80,80) )
+with(autist, points(lng, lat, pch = 10, cex = .25, col = rgb(0, .3, .7, .75)))
+(ggplot() + geom_polygon(data = usa, aes(x=long, y = lat, group = group)) +     coord_fixed(1.3)
+  par(mar = c(0, 0, 0, 0)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+### History
+
+
+library(RISmed)
+search_topic <- 'autis*'
+search_query <- EUtilsSummary(search_topic, retmax=100, mindate=2020, maxdate=2020)
+View(search_query)
+records<- EUtilsGet(search_query)
+pubmed_data <- data.frame('Title'=ArticleTitle(records),'Abstract'=AbstractText(records))
+pubmed_data$Abstract <- as.character(pubmed_data$Abstract)
+pubmed_data$Abstract <- gsub(",", " ", pubmed_data$Abstract, fixed = TRUE)
+str(pubmed_data)
+library(tidyr)
+library(dplyr)
+library(tidytext)
+library(dplyr)
+library(rtweet)
+### Strip
+pubmed_data$stripped_text <- gsub("http.*","",  pubmed_data)
+library(RISmed)
+search_topic <- 'autis*'
+search_query <- EUtilsSummary(search_topic, retmax=100, mindate=2020, maxdate=2020)
+View(search_query)
+records<- EUtilsGet(search_query)
+pubmed_data <- data.frame('Title'=ArticleTitle(records),'Abstract'=AbstractText(records))
+install.packages(c("rtweet", "tidytext"))
+pubmed_data$Abstract <- as.character(pubmed_data$Abstract)
+pubmed_data$Abstract <- gsub(",", " ", pubmed_data$Abstract, fixed = TRUE)
+str(pubmed_data)
+library(tidyr)
+library(dplyr)
+library(tidytext)
+library(dplyr)
+library(rtweet)
+### Strip
+pubmed_data$stripped_text <- gsub("http.*","",  pubmed_data)
+words <- pubmed_data %>%
+  select(stripped_text) %>%
+  unnest_tokens(word, stripped_text)
+## stop words
+data("stop_words")
+stop_words = rbind (stop_words,"autism","amp", "covid")
+words <- words %>%
+  anti_join(stop_words)
+####### et pour le graph : inspiré de run_twitter_network_igraph.R
+autism_pubmed_clean <- pubmed_data %>%
+  dplyr::select(stripped_text) %>%     unnest_tokens(word, stripped_text)
+autism_tweets_paired_words <- autism_tweets_clean %>%
+  dplyr::select(stripped_text) %>%
+  unnest_tokens(paired_words, stripped_text, token = "ngrams", n = 2)
+####### et pour le graph : inspiré de run_twitter_network_igraph.R
+autism_pubmed_clean <- pubmed_data %>%
+  dplyr::select(stripped_text) %>%     unnest_tokens(word, stripped_text)
+autism_tweets_paired_words <- autism_tweets_clean %>%
+  dplyr::select(stripped_text) %>%
+  unnest_tokens(paired_words, stripped_text, token = "ngrams", n = 2)
+autism_articles_paired_words <- autism_pubmed_clean %>%
+  dplyr::select(stripped_text) %>%
+  unnest_tokens(paired_words, stripped_text, token = "ngrams", n = 2)
+autism_pubmed_clean
+stripped_text
+pubmed_data
+####### et pour le graph : inspiré de run_twitter_network_igraph.R
+autism_pubmed_clean <- pubmed_data %>%
+  dplyr::select(stripped_text) %>% unnest_tokens(word, stripped_text)
+autism_articles_paired_words <- autism_pubmed_clean %>%
+  dplyr::select(stripped_text) %>%
+  unnest_tokens(paired_words, stripped_text, token = "ngrams", n = 2)
+autism_articles_paired_words <- autism_pubmed_clean %>%
+  unnest_tokens(paired_words, token = "ngrams", n = 2)
+quit()
+setwd("~/Documents/Github/TwiMed")
+library(dplyr)
+library(igraph)
+library(qgraph)
+input_file <- "../data/pubmed_tdm.Rdata"
+output_file <- "../data/pubmed_qgraph.Rdata"
+# load the pubmed term document matrix (tdm))
+load(input_file)
+# transform into dataframe describing connections
+matrix_pubmed <- tdm_pubmed %>% as.data.frame.matrix() %>% mutate(name = row.names(.))
+# create a igraph object
+g <- graph_from_data_frame(matrix_pubmed, directed = FALSE, vertices = NULL)
+setwd("~/Documents/Github/TwiMed/src")
+input_file <- "../data/pubmed_tdm.Rdata"
+output_file <- "../data/pubmed_qgraph.Rdata"
+# load the pubmed term document matrix (tdm))
+load(input_file)
+# transform into dataframe describing connections
+matrix_pubmed <- tdm_pubmed %>% as.data.frame.matrix() %>% mutate(name = row.names(.))
+library(dplyr)
+library(igraph)
+library(qgraph)
+input_file <- "../data/pubmed_tdm.Rdata"
+output_file <- "../data/pubmed_qgraph.Rdata"
+# load the pubmed term document matrix (tdm))
+load(input_file)
+# transform into dataframe describing connections
+matrix_pubmed <- tdm_pubmed %>% as.data.frame.matrix() %>% mutate(name = row.names(.))
+matrix_pubmed <- tdm_pubmed %>% as.data.frame.matrix()
+g <- graph_from_data_frame(matrix_pubmed, directed = FALSE, vertices = NULL)
+load(input_file)
+g <- graph_from_data_frame(matrix_pubmed, directed = FALSE, vertices = NULL)
+g <- graph_from_data_frame(tdm_pubmed, directed = FALSE, vertices = NULL)
+tdm_pubmed %>% as.data.frame.matrix()
+tdm_pubmed
+
+
+
+
+
+
+
+
+
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : extract Pubmed data used in the study
+# date            : 2020-05-16
+# version         : 1
+# ==============================================================================
+
+
+# If pubmedR does not work
+
+
+# Same with RISmed
+library(RISmed)
+res <- EUtilsSummary("autis*", type="esearch", db="pubmed", datetype='pdat', retmax=500) # "autism[Title/Abstract] AND 2015:2020[DP]"
+D <- EUtilsGet(res)
+results_pubmed <- pubmed2df(D)
+results <- biblioAnalysis(co)
+
+
+
+
+
+
+
+
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : preprocess Pubmed data into a Term Document Matrix
+# date            : 2020-05-12
+# version         : 1
+# ==============================================================================
+
+
+
+
+
+run_twitter_02_matrix_OLD
+
+###########
+########### Ancienne méthode = QUI FONCTIONNE ÉGALEMENT
+###########
+
+
+
+
+
+#### Use for create a binary matrix with the get_data from Twitter
+
+
+load("../data/twitter.RData")
+
+autis$stripped_text <- gsub("http.*","",  autis$text)
+autis$stripped_text <- gsub("https.*","", autis$stripped_text)
+autis$stripped_text <- gsub("amp","", autis$stripped_text)
+autis$stripped_text <- gsub("auti*","", autis$stripped_text)
+
+# data frame de tweet en caractère
+I=as.data.frame(autis$stripped_text)
+names(I)[1]="tweet"
+I$tweet=as.character(I$tweet)
+library(dplyr)
+library(stringr)
+I$tweet = I$tweet %>% str_to_lower() # Enlever les majuscules
+
+# liste de mots triés : 20206 mots uniques
+library(tidytext)
+words <- autis %>%
+  select(stripped_text) %>%
+  unnest_tokens(word, stripped_text)
+data("stop_words")
+stop_words = rbind (stop_words,"autism","amp","sm")
+words <- words %>% 
+  anti_join(stop_words)
+words$word = words$word %>%
+  str_to_lower()
+unique.words = words %>%
+  count(word, sort = TRUE)
+rm.word = function(word,data){
+  data=data[-which(str_detect(data$word,word)),]
+  return(data)}
+unique.words=rm.word("covid",unique.words)
+unique.words=rm.word("sm",unique.words)
+unique.words=rm.word("autism*",unique.words)
+unique.words=rm.word("awaren*",unique.words)
+unique.words=rm.word("1",unique.words)
+unique.words=rm.word("2",unique.words)
+unique.words=rm.word("3",unique.words)
+unique.words=rm.word("4",unique.words)
+
+
+# On rempli le data.frame avec les #
+Idiese <- I
+Idiese[,2:101 <- 0
+       nTweetDiese <- NA
+       compteur <- 1
+       split <- str_split(Idiese[,1]," ")
+       for (j in unique.words$word[1:100]){
+         compteur = compteur + 1
+         for (i in 1:dim(Idiese)[1]){
+           if( j %in% split[[i]] | paste("#",j,sep = "") %in% split[[i]]){ Idiese[i,compteur] = 1
+           }
+         }
+         names(Idiese)[compteur]=j
+         nTweetDiese[compteur]=sum(Idiese[,compteur])
+         print(compteur)
+       }
+       write.table(Idiese,"tweet.binaire.1000.#",sep="\t")
+       
+       # apriori les hashtag n'ont pas été comptés dans le dataframe.
+       nTweetDiese = nTweetDiese[-1]
+       plot(nTweetDiese,unique.words$n[1:100],ylim = c(0,2200),xlim = c(0,1600))
+       lines(x = c(0,2000),y=c(0,2000))
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       library(tm)
+       
+       input_file <- "../data/pubmed.Rdata"
+       output_file <- "../data/pubmed_matrix.Rdata"
+       
+       # load the pubmed data
+       load(input_file)
+       # convert to a corpus
+       datatxt.corpus <- Corpus(DataframeSource(data.frame(doc_id=results_pubmed$PMID, text=results_pubmed$AB)))
+       # remove punctuations
+       datatxt.corpus <- tm_map(datatxt.corpus, removePunctuation)
+       # remove white space
+       datatxt.corpus <- tm_map(datatxt.corpus, stripWhitespace)
+       # lowercase
+       datatxt.corpus <- tm_map(datatxt.corpus, tolower)
+       # remove common english word, terms used and human brain mapping
+       datatxt.corpus <- tm_map(datatxt.corpus,function(x) removeWords(x, c(stopwords("english"))))
+       # create corpus table
+       tdm_pubmed <- TermDocumentMatrix(datatxt.corpus)
+       # convert to a matrix
+       matrix_pubmed <- as.matrix(tdm_pubmed)
+       # save to data folder
+       save(matrix_pubmed, file = output_file)
+
+       
+       
+       
+       
+       
+       #!/usr/bin/env Rscript
+       # coding=utf-8
+       # ==============================================================================
+       # description     : processing pipeline for Pubmed data
+       # date            : 2020-05-24
+       # version         : 3 (Julien, Guillaume)
+       # ==============================================================================
+       
+       rm(list=ls())
+       
+       library(qgraph)
+       
+       input_file <- "../data/pubmed_matrix.Rdata"
+       output_file <- "../data/pubmed_qgraph.Rdata"
+       
+       # load the pubmed term document matrix (matrix format)
+       load(input_file)
+       
+       # transpose the matrix 
+       matrix_pubmed2 <- t(matrix_pubmed)
+       
+       # compute a correlation matrix
+       cor_pubmed <- cor(matrix_pubmed2)
+       
+       # plot the graph
+       e <- qgraph(cor_pubmed, 
+                   layout = "spring",labels=TRUE,posCol = "blue", negCol = "red",
+                   nodeNames = colnames(cor_pubmed),
+                   legend = TRUE)
+       
+       # save to data folder
+       save(e, file = output_file)
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       
+       #!/usr/bin/env Rscript
+       # coding=utf-8
+       # ==============================================================================
+       # description     : processing pipeline for Pubmed data
+       # date            : 2020-05-12
+       # version         : 2 (Ju)
+       # ==============================================================================
+       
+       ###### Graph of keywords
+       
+       rm(list=ls())
+       
+       library(tidytext)
+       library(igraph)
+       library(qgraph)
+       
+       input_file <- "data/pubmed.Rdata"
+       output_file <- "data/pubmed_qgraph.Rdata"
+       
+       # load the pubmed dataframe
+       load(input_file)
+       
+       # drop papers without keyword
+       keyword_pubmed <- results_pubmed[ results_pubmed$DE != "" , c("PMID","DE")]
+       
+# 1. Textmining
+# split keywords of each paper
+tidy_pubmed <- unnest_tokens(keyword_pubmed, keyword, DE ,token = stringr::str_split, pattern = ";")
+# count keywords
+tidy_pubmed2 <- dplyr::count(tidy_pubmed, PMID, keyword)
+# 2. Graph
+# create a igraph object
+g <- graph_from_data_frame(tidy_pubmed2, directed = FALSE, vertices = NULL)
+# extract the adjacency matrix of the graph
+r <- as_adjacency_matrix(g)
+# create a qgraph object
+Q <- qgraph(r,layout="spring")
+# save
+save(Q, file = output_file)
+##############
+############## Graph of abstract's words
+##############
+rm(list=ls())
+library(tidytext)
+library(igraph)
+library(qgraph)
+input_file <- "data/pubmed.Rdata"
+output_file <- "data/pubmed_qgraph.Rdata"
+# load the pubmed dataframe
+load(input_file)
+# 1. Textmining
+# keep onnly abstracts and PMID
+ab_pubmed = results_pubmed[,c("PMID","AB")]
+# split abstracts into words
+tidy_pubmed = unnest_tokens(ab_pubmed, word, AB)
+# remove common words 
+data("stop_words")
+tidy_pubmed2 <- dplyr::anti_join(tidy_pubmed,stop_words)
+# count the number of each word in each abstract
+tidy_pubmed3 <- dplyr::count(tidy_pubmed2, PMID, word)
+# 2. Graph
+# create a igraph object
+g <- graph_from_data_frame(tidy_pubmed3, directed = FALSE, vertices = NULL)
+# extract the adjacency matrix of the graph
+r <- as_adjacency_matrix(g)
+# create a qgraph object
+Q <- qgraph(r)
+# save
+save(Q, file = output_file)
+############
+########### ANCIEN
+############
+load(results_pubmed)
+# TEXT MINING
+library(tidytext)
+words <- results_pubmed %>%
+  select(stripped_text) %>%
+  unnest_tokens(word, stripped_text)
+data("stop_words")
+stop_words = rbind (stop_words,"autism","amp")
+words <- words %>% 
+  anti_join(stop_words)
+words$word = words$word %>%
+  str_to_lower()
+unique.words = words %>%
+  count(word, sort = TRUE)
+###########
+########### QGRAPH depuis results_pubmed (voir getdata)
+###########
+g <- graph_from_data_frame(unique.words, directed = FALSE, vertices = NULL)
+r <- as_adjacency_matrix(g) ## si on veut 
+Q <- qgraph(r)
+###########
+########### Matrice de 0 et de 1  (1 colonne = 1 mot   / 1 ligne = 1 article)  
+###########
+# fonction de Idiese (voir fichier = run_clean_matrix_twitter) (!!!!!!! TITRE ICI)
+pubm <- results_pubmed$TI
+View(pubm)
+J=as.data.frame(pubm)
+View(J)
+# nettoyage des mots
+results_pubmed$stripped_text <- gsub("http.*","",  results_pubmed$TI)
+results_pubmed$stripped_text <- gsub("https.*","", results_pubmed$stripped_text)
+results_pubmed$stripped_text <- gsub("amp","", results_pubmed$stripped_text)
+results_pubmed$stripped_text <- gsub("auti*","", results_pubmed$stripped_text)
+# Matrice O et 1
+library(stringr)
+library(tidytext)
+Jdiese = J
+Jdiese[,2:101]=0
+nTweetDiese=NA
+compteur=1
+split = str_split(Jdiese[,1]," ")
+for (j in unique.words$word[1:100]){
+  compteur = compteur + 1
+  for (i in 1:dim(Jdiese)[1]){
+    if( j %in% split[[i]] | paste("#",j,sep = "") %in% split[[i]]){ Jdiese[i,compteur] = 1
+                                                                     }
+}
+names(Jdiese)[compteur]=j
+nTweetDiese[compteur]=sum(Jdiese[,compteur])
+print(compteur)
+}
+View(Jdiese)
+write.table(Jdiese,"tweet.binaire.1000.#",sep="\t")
+
+
+
+
+
+
+
+
+
+
+
+#!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : Pubmed (old TwiMed.R)
+# date            : 2020-04-24
+# version         : 1
+# ==============================================================================
+
+#### PUBMED 
+library(qgraph)
+library(lavaan)
+
+# Datas from an "export" from PubMed
+d  <- DatasOKNOTTS
+
+# convert character
+summary(d)
+d$out_degree = as.numeric(as.character(d$out_degree))
+d$in_degree = as.numeric(as.character(d$in_degree))
+d$betweeness = as.numeric(as.character(d$betweeness))
+View(d)
+
+# Convert dataframe
+gh <- na.omit(d)
+View(gh)
+gt <- gh %>% select(3, 4, 5, 8)
+View(gt)
+
+# graph1
+gt %>%
+  graph_from_data_frame() %>%
+  ggraph(layout = "fr") +
+  geom_node_point(color = "darkslategray4", size = 3) +
+  geom_node_text(aes(label = name), vjust = 1.8, size = 3) +
+  labs(title = "PubMed - #autism", subtitle = "Text mining PubMed data ", x = "", y = "")
+
+
+# convert to igraph
+p <- graph_from_data_frame(gt, directed = FALSE, vertices = NULL)
+plot(p)
+o <- as_adjacency_matrix(p,edges = TRUE, names = TRUE) ## si on veut 
+plot(o)
+
+
+### coefficient de clustering
+transitivity(p, type = "average") 
+transitivity(o, type = "average") 
+ml <- cor_auto(t)
+
+
+
+
+       
