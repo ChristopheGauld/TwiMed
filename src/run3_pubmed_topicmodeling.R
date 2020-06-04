@@ -44,6 +44,6 @@ group <- list(topic1,topic2,topic3,topic4)
 matrix_pubmed <- as.matrix(dtm_pubmed)
 
 # save
-save(matrix_pubmed, group, file = output_file)
+save(tidy_pubmed2,matrix_pubmed, group, file = output_file)
 
 
