@@ -20,19 +20,22 @@ load(input_file)
 autis$id <- rownames(autis)
 autis_tweets <- autis[,c("text","id")]
 
+# remove URL from tweets
+autis_tweets$text <- gsub("http.*","",  autis_tweets$text)
+autis_tweets$text <- gsub("https.*","", autis_tweets$text)
+
 # split tweets and remove url
-tidy_tweeter <- autis_tweets %>%
-  unnest_tokens(word, text)
+tidy_twitter <- autis_tweets %>%
+  	unnest_tokens(word, text)
 
-# keep only hashtag
-tidy_hashtag <- tidy_tweeter[str_detect(tidy_tweeter$word,"#"),]
-# remove autis* and covid19 words
-tidy_hashtag2 <- tidy_hashtag[!str_detect(tidy_hashtag$word,"autis"),]
-tidy_hashtag3 <- tidy_hashtag2[tidy_hashtag2$word != "#asd",]
-tidy_hashtag3 <- tidy_hashtag3[tidy_hashtag3$word != "#covid19",]
+# cleaning
+data("stop_words")
+stop_words = rbind (stop_words,"amp","sm",”asd”)
+tidy_twitter2 <- words %>% 
+            anti_join(stop_words)
 
-# Save the 15 most frequent words
-tidy_hashtag4 <- count(tidy_hashtag3,word,sort=TRUE)
-words15 = tidy_hashtag4$word[1:15]
+tidy_twitter3 <- tidy_tweeter2[!str_detect(tidy_twitter2$word,"autis"),]
+tidy_twitter4 <- tidy_tweeter3[!str_detect(tidy_twitter3$word,c("1","2","3","4","5","6","7","8","9"))]
 
-
+# save
+save(tidy_twitter4,output_file)
