@@ -1,4 +1,14 @@
 
+ #!/usr/bin/env Rscript
+# coding=utf-8
+# ==============================================================================
+# description     : processing pipeline for topic modeling
+# date            : 2020-06-04
+# version         : 4
+# ==============================================================================
+
+
+
 rm(list=ls())
 
 library(topicmodels)
