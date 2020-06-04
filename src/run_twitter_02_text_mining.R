@@ -6,28 +6,23 @@
 # version         : 2 (Ju)
 # ==============================================================================
 
-
-
-
-rm(list=ls())
-
 library(dplyr)
 library(stringr)
 library(tidytext)
 
-input_file <- "../data/twitter_Tue May 12 15:31:03 2020.RData"
-output_file <- "../results/raincloudplot_hashtag.pdf"
+input_file <- "../data/twitter.Rdata"
+output_file <- "../results/twitter_tidy.Rdata"
 
 # load the twitter dataframe
 load(input_file)
 
 # put an id for each tweet
-autis$id = rownames(autis)
-autis_tweets = autis[,c("text","id")]
+autis$id <- rownames(autis)
+autis_tweets <- autis[,c("text","id")]
 
 # split tweets and remove url
 tidy_tweeter <- autis_tweets %>%
-  unnest_tokens(word, text, token="tweets", strip_url=TRUE)
+  unnest_tokens(word, text)
 
 # keep only hashtag
 tidy_hashtag <- tidy_tweeter[str_detect(tidy_tweeter$word,"#"),]
