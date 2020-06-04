@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript
 # coding=utf-8
 # ==============================================================================
-# description     : processing pipeline to create matrix
+# description     : class words in groups by topic modeling
 # date            : 2020-05-12
 # version         : 3
 # ==============================================================================
