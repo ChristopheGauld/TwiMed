@@ -11,7 +11,7 @@ library(stringr)
 library(tidytext)
 
 input_file <- "../data/twitter.Rdata"
-output_file <- "../results/twitter_tidy.Rdata"
+output_file <- "../results/twitter_tdm.Rdata"
 
 # load the twitter dataframe
 load(input_file)
