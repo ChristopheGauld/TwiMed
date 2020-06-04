@@ -8,17 +8,15 @@
 
 
 
-# Réinitialiser l'espace de travail
+
 rm(list=ls())
-# Charger les packages
+
 library(dplyr)
 library(stringr)
 library(tidytext)
-date()
-# Définir l'espace de travail, nommer les input et output
-setwd("~/...Twimed")
-input_file <- "data/twitter_Tue May 12 15:31:03 2020.RData"
-output_file <- "results/raincloudplot_hashtag.pdf"
+
+input_file <- "../data/twitter_Tue May 12 15:31:03 2020.RData"
+output_file <- "../results/raincloudplot_hashtag.pdf"
 
 # load the twitter dataframe
 load(input_file)
