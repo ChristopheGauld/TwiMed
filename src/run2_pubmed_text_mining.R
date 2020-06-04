@@ -41,6 +41,6 @@ tidy.pubmed3 <- dplyr::count(tidy.pubmed2, PMID, word)
 dtm_pubmed <- cast_dtm(tidy.pubmed3, PMID, word, n)
 
 # save
-save(dtm_pubmed, file = output_file)
+save(ab.pubmed,tidy.pubmed3,dtm_pubmed, file = output_file)
 
 
