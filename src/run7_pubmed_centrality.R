@@ -2,8 +2,8 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for centralities with qgraph object
-# date            : 2020-05-30
-# version         : 3
+# date            : 2020-05-04
+# version         : 4
 # ==============================================================================
 
 
