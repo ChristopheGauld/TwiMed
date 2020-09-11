@@ -6,15 +6,11 @@
 # version         : 2
 # ==============================================================================
 
-
-
-
 rm(list=ls())
 
 library(tidytext)
 library(stringr)
 
-setwd("~/Desktop/R/TwiMed/DATAS")
 input_file <- "data/pubmed.Rdata" # Le premier dataframe du prg 1
 output_file <- "data/pubmed_tdm.Rdata"
 
@@ -42,5 +38,3 @@ dtm_pubmed <- cast_dtm(tidy.pubmed3, PMID, word, n)
 
 # save
 save(ab.pubmed,tidy.pubmed3,dtm_pubmed, file = output_file)
-
-
