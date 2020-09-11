@@ -12,7 +12,6 @@ library(topicmodels)
 library(tidytext)
 library(dplyr)
 
-setwd("~/Desktop/R/TwiMed/DATAS")
 input_file <- "data/pubmed_tdm.Rdata" 
 output_file <- "data/pubmed_tdm_group.Rdata"
 
