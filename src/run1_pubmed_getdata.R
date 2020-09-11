@@ -2,23 +2,19 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline to create matrix
-# date            : 2020-05-30
-# version         : 2 (Ju)
+# date            : 2020-09-11
+# version         : 3 (GD)
 # ==============================================================================
-
-
-setwd("~/Desktop/R/TwiMed/DATAS")
 
 library(pubmedR)
 library(bibliometrix)
 
 output_file <- "data/pubmed.Rdata"
 
-
 # pubmed extraction
 search_query <- ("autis*")
 res <- pmQueryTotalCount(search_query)
-search_output <- pmApiRequest(query = search_query,res$total_count # limit = 1000 
+search_output <- pmApiRequest(query = search_query, res$total_count # limit = 1000 
                               , api_key = NULL)
 
 # convert to a dataframe
