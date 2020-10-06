@@ -23,7 +23,7 @@ ab.pubmed <- results_pubmed[, c("PMID","AB")]
 # split abstracts into words
 tidy.pubmed <- unnest_tokens(ab.pubmed, word, AB)
 
-# remove common words and words containing "autism" or "disorder"
+# remove common words and words containing "autism" or  "disorder"
 data("stop_words")
 stop_words = rbind(stop_words,"autism","asd", "1", "2", "3", "4", "5", "6", "7", "8", "9")
 class(tidy.pubmed) <- c("bibliometrixDB", "data.frame")
