@@ -17,8 +17,8 @@ output_file <- "../data/twitter_tdm.Rdata"
 load(input_file)
 
 # put an id for each tweet
-autis$id <- rownames(autis)
-autis_tweets <- autis[,c("text","id")]
+results_twitter$id <- rownames(results_twitter)
+autis_tweets <- results_twitter[,c("text","id")]
 
 # remove URL from tweets
 autis_tweets$text <- gsub("http.*","",  autis_tweets$text)
@@ -30,19 +30,18 @@ tidy_twitter <- autis_tweets %>%
 
 # cleaning
 data("stop_words")
-stop_words = rbind (stop_words,"amp","sm",”asd”)
-tidy_twitter2 <- words %>% 
+stop_words = rbind (stop_words,"amp","sm","asd")
+tidy_twitter2 <- tidy_twitter %>% 
             anti_join(stop_words)
 
-tidy_twitter3 <- tidy_tweeter2[!str_detect(tidy_twitter2$word,"autis"),]
-tidy_twitter4 <- tidy_tweeter3[!str_detect(tidy_twitter3$word,c("1","2","3","4","5","6","7","8","9"))]
+tidy_twitter3 <- tidy_twitter2[!str_detect(tidy_twitter2$word,"autis"),]
+tidy_twitter4 <- tidy_twitter3[!str_detect(tidy_twitter3$word, c("1","2","3","4","5","6","7","8","9")),]
 
 # count frequency of each word 
-tidy_twitter5 <- dplyr::count(tidy_twitter4, word,sort=TRUE)
+tidy_twitter5 <- dplyr::count(tidy_twitter4, id, word, sort=TRUE)
 
-# convert to a dtm
+# convert to a dtm 
 dtm_twitter <- cast_dtm(tidy_twitter5, word, id, n)
 
 # save
-save(tidy_twitter5,dtm_twitter,autis_tweets, file = output_file)
-
+save(tidy_twitter5, dtm_twitter, autis_tweets, file = output_file)

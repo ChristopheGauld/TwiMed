@@ -8,19 +8,21 @@
 
 rm(list=ls())
 
-input_file <- "../data/twitter_tdm_group.Rdata"
+input_file1 <- "../data/twitter_tdm.Rdata"
+input_file2 <- "../data/twitter_tdm_group.Rdata"
 output_file <- "../data/twitter_qgraph.Rdata"
 
 library(qgraph)
 
 # load the pubmed tidy object and the terms order by group after topic modeling
-load(input_file)
+load(input_file1)
+load(input_file2)
 
 # Selection of the 300 most frequent words to plot the graph
 nNode <- 300
-freq_word <- dplyr::top_n(dplyr::count(tidy_twitter4, word),nNode, n)
+freq_word <- dplyr::top_n(dplyr::count(tidy_twitter5, word), nNode, n)
 
-matrix_reduite <- matrix_twitter[,freq_word$word]
+matrix_reduite <- matrix_twitter[, freq_word$word]
 cor_matrix_reduite <- cor(matrix_reduite)
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
 group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 

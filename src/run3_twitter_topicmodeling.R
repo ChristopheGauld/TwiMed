@@ -13,9 +13,8 @@ library(topicmodels)
 library(tidytext)
 library(dplyr)
 
-setwd("~/Desktop/R/TwiMed/DATAS")
-input_file <- "data/twitter_tdm.Rdata" 
-output_file <- "data/twitter_tdm_group.Rdata"
+input_file <- "../data/twitter_tdm.Rdata" 
+output_file <- "../data/twitter_tdm_group.Rdata"
 
 # load the pubmed dataframe
 load(input_file)

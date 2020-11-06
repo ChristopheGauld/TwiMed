@@ -12,8 +12,8 @@ library(topicmodels)
 library(tidytext)
 library(dplyr)
 
-input_file <- "data/pubmed_tdm.Rdata" 
-output_file <- "data/pubmed_tdm_group.Rdata"
+input_file <- "../data/pubmed_tdm.Rdata" 
+output_file <- "../data/pubmed_tdm_group.Rdata"
 
 # load the pubmed dataframe
 load(input_file)
@@ -44,4 +44,4 @@ group <- list(topic1,topic2,topic3,topic4,topic5,topic6,topic7)
 matrix_pubmed <- as.matrix(dtm_pubmed)
 
 # save
-save(tidy_pubmed2, matrix_pubmed, group, file = output_file)
+save(matrix_pubmed, group, file = output_file)

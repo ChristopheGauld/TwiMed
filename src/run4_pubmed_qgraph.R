@@ -8,8 +8,8 @@
 
 rm(list=ls())
 
-input_file <- "data/pubmed_tdm_group.Rdata"
-output_file <- "data/pubmed_qgraph.Rdata"
+input_file <- "../data/pubmed_tdm_group.Rdata"
+output_file <- "../data/pubmed_qgraph.Rdata"
 
 library(qgraph)
 
@@ -19,7 +19,7 @@ load(input_file)
 # definition de la matrice réduite à 50 noeuds
 #nNode <- 50
 nNode <- 500
-freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word),nNode, n)
+freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word), nNode, n)
 
 matrix_reduite <- matrix_pubmed[,freq_word$word]
 cor_matrix_reduite <- cor(matrix_reduite)
