@@ -41,7 +41,7 @@ tidy_twitter4 <- tidy_twitter3[!str_detect(tidy_twitter3$word, c("1","2","3","4"
 tidy_twitter5 <- dplyr::count(tidy_twitter4, id, word, sort=TRUE)
 
 # convert to a dtm 
-dtm_twitter <- cast_dtm(tidy_twitter5, word, id, n)
+dtm_twitter <- cast_dtm(tidy_twitter5, id, word, n)
 
 # save
 save(tidy_twitter5, dtm_twitter, autis_tweets, file = output_file)

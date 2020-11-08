@@ -36,7 +36,10 @@ topic1 <- topic_max$term[topic_max$topic==1]
 topic2 <- topic_max$term[topic_max$topic==2]
 topic3 <- topic_max$term[topic_max$topic==3]
 topic4 <- topic_max$term[topic_max$topic==4]
-group <- list(topic1,topic2,topic3,topic4)
+topic5 <- topic_max$term[topic_max$topic==5]
+topic6 <- topic_max$term[topic_max$topic==6]
+topic7 <- topic_max$term[topic_max$topic==7]
+group <- list(topic1,topic2,topic3,topic4,topic5,topic6,topic7)
 
 # create a cor matrix of the dtm
 matrix_twitter <- as.matrix(dtm_twitter)
