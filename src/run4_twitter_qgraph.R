@@ -10,7 +10,7 @@ rm(list=ls())
 
 input_file1 <- "../data/twitter_tdm.Rdata"
 input_file2 <- "../data/twitter_tdm_group.Rdata"
-output_file1 <- "../data/twitter_graph_50.pdf"
+output_file1 <- "../fig/twitter_graph_50.pdf"
 output_file2 <- "../data/twitter_qgraph_50.Rdata"
 
 library(qgraph)
@@ -60,7 +60,7 @@ rm(list=ls())
 
 input_file1 <- "../data/twitter_tdm.Rdata"
 input_file2 <- "../data/twitter_tdm_group.Rdata"
-output_file1 <- "../data/twitter_graph_2000.pdf"
+output_file1 <- "../fig/twitter_graph_2000.pdf"
 output_file2 <- "../data/twitter_qgraph_2000.Rdata"
 
 # load the pubmed tidy object and the terms order by group after topic modeling
