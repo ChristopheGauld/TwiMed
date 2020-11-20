@@ -40,6 +40,8 @@ group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_re
 # create a qgraph object
 pdf(file = output_file1)
 Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "blue", negCol = "NA",
+            vsize = 3,
+            label.cex = 2,
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             groups = group_matrix_reduite,
             label.scale = TRUE,
