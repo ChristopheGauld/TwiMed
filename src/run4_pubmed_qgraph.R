@@ -39,12 +39,13 @@ group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_re
 
 # create a qgraph object
 pdf(file = output_file1)
-Q <- qgraph(cor_matrix_reduite, layout = "spring", posCol = "red", negCol = "NA",
+Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "blue", negCol = "NA",
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             groups = group_matrix_reduite,
             label.scale = TRUE,
             labels = TRUE,
-            minimum = 0.08, # 0.15 quand 500 noeuds
+            esize = 3,
+            minimum = 0.07, # 0.15 quand 500 noeuds
             repulsion = 1., # Augmenter la distance entre les noeuds pour améliorer la visualisation en "cluster"
             legend.mode = "style2", # groupe quand 500 noeuds
             nodeNames= TRUE,
