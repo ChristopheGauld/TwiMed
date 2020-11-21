@@ -69,7 +69,7 @@ load(input_file2)
 
 # Selection of the 50 most frequent words to plot the graph
 nNode <- 2000
-freq_word <- dplyr::top_n(dplyr::count(tidy_twitter5, word), nNode, n)
+freq_word <- dplyr::top_n(dplyr::count(tidy_twitter4, word), nNode, n)
 matrix_reduite <- matrix_twitter[, freq_word$word]
 
 cor_matrix_reduite <- cor(matrix_reduite)
