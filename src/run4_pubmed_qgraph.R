@@ -24,6 +24,7 @@ load(input_file2)
 nNode <- 50
 freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed3, word), nNode, n)
 matrix_reduite <- matrix_pubmed[, freq_word$word]
+cor_matrix_reduite <- cor(matrix_reduite)
 
 # Best numbers of Clusters
 resp<-NbClust(cor_matrix_reduite, distance = "euclidean", min.nc=2, max.nc=8, 
@@ -32,15 +33,12 @@ resp$All.index
 resp$Best.nc
 resp$Best.partition
 
-cor_matrix_reduite <- cor(matrix_reduite)
+# Groups
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
 group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
 group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
 group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
-group5_reduit <- which(colnames(cor_matrix_reduite) %in% group[[5]]) 
-group6_reduit <- which(colnames(cor_matrix_reduite) %in% group[[6]]) 
-group7_reduit <- which(colnames(cor_matrix_reduite) %in% group[[7]]) 
-group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit,group5_reduit,group6_reduit,group7_reduit)
+group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
 # Définition de la matrice de corrélation de taille normale
 # cor_matrix <- cor(matrix_pubmed)
@@ -92,10 +90,7 @@ group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]])
 group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
 group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
 group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
-group5_reduit <- which(colnames(cor_matrix_reduite) %in% group[[5]]) 
-group6_reduit <- which(colnames(cor_matrix_reduite) %in% group[[6]]) 
-group7_reduit <- which(colnames(cor_matrix_reduite) %in% group[[7]]) 
-group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit,group5_reduit,group6_reduit,group7_reduit)
+group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
 # Définition de la matrice de corrélation de taille normale
 # cor_matrix <- cor(matrix_pubmed)
