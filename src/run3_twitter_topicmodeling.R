@@ -12,6 +12,7 @@ rm(list=ls())
 library(topicmodels)
 library(tidytext)
 library(dplyr)
+library(NbClust)
 
 input_file <- "../data/twitter_tdm.Rdata" 
 output_file <- "../data/twitter_tdm_group.Rdata"
@@ -19,8 +20,16 @@ output_file <- "../data/twitter_tdm_group.Rdata"
 # load the pubmed dataframe
 load(input_file)
 
+#
+# Best numbers of Clusters
+res<-NbClust(cor_matrix_reduite, distance = "euclidean", min.nc=2, max.nc=8, 
+             method = "complete", index = "ch")
+res$All.index
+res$Best.nc
+res$Best.partition
+
 # set a seed so that the output of the model is predictable
-lda_twitter <- LDA(dtm_twitter, k = 7, control = list(seed = 1234))
+lda_twitter <- LDA(dtm_twitter, k = 4, control = list(seed = 1234))
 
 # compute word-topic probabilities
 topics_prob_twitter <- tidy(lda_twitter, matrix = "beta")
@@ -36,10 +45,7 @@ topic1 <- topic_max$term[topic_max$topic==1]
 topic2 <- topic_max$term[topic_max$topic==2]
 topic3 <- topic_max$term[topic_max$topic==3]
 topic4 <- topic_max$term[topic_max$topic==4]
-topic5 <- topic_max$term[topic_max$topic==5]
-topic6 <- topic_max$term[topic_max$topic==6]
-topic7 <- topic_max$term[topic_max$topic==7]
-group <- list(topic1,topic2,topic3,topic4,topic5,topic6,topic7)
+group <- list(topic1,topic2,topic3,topic4)
 
 # create a cor matrix of the dtm
 matrix_twitter <- as.matrix(dtm_twitter)
