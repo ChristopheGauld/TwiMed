@@ -20,19 +20,20 @@ library(NbClust)
 load(input_file1)
 load(input_file2)
 
-# Best numbers of Clusters
-res<-NbClust(cor_matrix_reduite, distance = "euclidean", min.nc=2, max.nc=8, 
-             method = "complete", index = "ch")
-res$All.index
-res$Best.nc
-res$Best.partition
-
 # Selection of the 50 most frequent words to plot the graph
 nNode <- 50
 freq_word <- dplyr::top_n(dplyr::count(tidy_twitter4, word), nNode, n)
 matrix_reduite <- matrix_twitter[, freq_word$word]
-
 cor_matrix_reduite <- cor(matrix_reduite)
+
+# Best numbers of Clusters
+rest<-NbClust(cor_matrix_reduite, distance = "euclidean", min.nc=2, max.nc=8, 
+             method = "complete", index = "ch")
+rest$All.index
+rest$Best.nc
+rest$Best.partition
+
+# Groups
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
 group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
 group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
