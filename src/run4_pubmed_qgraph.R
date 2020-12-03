@@ -48,17 +48,18 @@ pdf(file = output_file1)
 Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "blue", negCol = "NA",
             vsize = 3,
             label.cex = 2,
+            curveAll = TRUE,
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             groups = group_matrix_reduite,
             label.scale = TRUE,
             labels = TRUE,
             esize = 3,
-            minimum = 0.07, # 0.15 quand 500 noeuds
-            repulsion = 1., # Augmenter la distance entre les noeuds pour améliorer la visualisation en "cluster"
+            minimum = 0.2
+            repulsion = 1., 
             legend.mode = "style2", # groupe quand 500 noeuds
             nodeNames= TRUE,
             sampleSize = nrow(cor_matrix_reduite),
-            alpha = 0.05, # Pour ne prendre en compte que les corrélations statistiquement significatifs, en tenant compte de l'inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
+            alpha = 0.05, # inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
             palette = "pastel",
             vsize = 4,
             cut = 0.3)
