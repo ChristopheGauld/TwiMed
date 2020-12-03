@@ -29,41 +29,27 @@ occurence_random_tweet <- function(data, indices, word) {
 }
 
 # initialisation d'un tableau de résultat vide
-results <- matrix(NA,1000,15)
-results <- as.data.frame(results)
+results2 <- matrix(NA,1000,15)
+results2 <- as.data.frame(results)
 # For each of the 15 words, we calculate the 1000 values of bootstrap and put them in a column of the results table
 for (i in 1:15) {
-  result <- boot(data=autis_tweets, statistic=occurence_random_tweet, R=1000, word=words15[i])
-  results[,i] <- result$t # We fill a column of the dataframe of the results with the 1000 values of bootsrap
-  names(results)[i] <- words15[i] 
-print(names(results)[i])
+  result2 <- boot(data=autis_tweets, statistic=occurence_random_tweet, R=1000, word=words15[i])
+  results2[,i] <- result$t # We fill a column of the dataframe of the results with the 1000 values of bootsrap
+  names(results2)[i] <- words15[i] 
+print(names(results2)[i])
 }
-
-# Bootstrap by drawing words, not tweets :
-# Define the occurence function which returns the number of occurrences of a word in the vector data. Leave the line of data (indices seems to be necessary to select the samples of data with discount)
-#occurence_random_word <- function(data, indices, word) {
-#  words <- data[indices] # allows boot to select sample
-#  return(sum(words == word))
-#}
-# initialisation d'un tableau de résultat vide
-#results2=matrix(NA,1000,15)
-#results2=as.data.frame(results2)
-# Pour chacun des 15 mots, on calcule les 1000 valeurs de bootsrap et on les mets dans une colonne du tableau de résultats
-#for (i in 1:15) {
-#  result <- boot(data=tidy_hashtag3$word, statistic=occurence_random_word, R=1000, word=words15[i])
-#  results2[,i]=result$t # On remplit une colonne du dataframe des résultats avec les 1000 valeurs de bootsrap
-#  names(results2)[i]=words15[i] # On donne le mot en nom de variable du dataframe
-#  print(i)
-#}
-#summary(results2[,1])
-#quantile(results2[,1],c(.025,.975))
-#PropCIs::exactci(281,15378,.95)$conf.int*15378
+summary(results2[,1])
+quantile(results2[,1],c(.025,.975))
+PropCIs::exactci(281,15378,.95)$conf.int*15378
 
 ## Reformat the data for ggplot
+library(dplyr)
+library(tidyr)
 plotData <- gather(results,wordname,occurency
                    ,factor_key = TRUE) #to have a sort plot
 
 ## And plot the data
+library(ggplot2)
 source("../src/run5_twitter_load_function_violin.R") 
 p <- ggplot(plotData,aes(x=plotData[,1],y=plotData[,2], 
                           fill = plotData[,1], colour = plotData[,1]),trim = TRUE)+
