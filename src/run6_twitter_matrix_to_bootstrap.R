@@ -17,7 +17,7 @@ library(ggplot2)
 #### load the tidy objet of twitter words
 load(input_file)
 
-words15 <- tidy_twitter5$word[1:15]
+words15 <- tidy_twitter4$word[1:15]
 
 # Occurences Bootstrap and raincloud plot
 # Define the occurence function which returns the number of occurrences of a word in the vector data. Leave the line of data (indices seems to be necessary to select the samples of data with discount)
