@@ -14,6 +14,7 @@ output_file1 <- "../fig/pubmed_graph_50.pdf"
 output_file2 <- "../data/pubmed_qgraph_50.Rdata"
 
 library(qgraph)
+library(NbClust)
 
 # load the pubmed tidy object and the terms order by group after topic modeling
 load(input_file1)
@@ -23,6 +24,13 @@ load(input_file2)
 nNode <- 50
 freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed3, word), nNode, n)
 matrix_reduite <- matrix_pubmed[, freq_word$word]
+
+# Best numbers of Clusters
+resp<-NbClust(cor_matrix_reduite, distance = "euclidean", min.nc=2, max.nc=8, 
+             method = "complete", index = "ch")
+resp$All.index
+resp$Best.nc
+resp$Best.partition
 
 cor_matrix_reduite <- cor(matrix_reduite)
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
