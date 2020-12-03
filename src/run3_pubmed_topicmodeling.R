@@ -19,7 +19,7 @@ output_file <- "../data/pubmed_tdm_group.Rdata"
 load(input_file)
 
 # set a seed so that the output of the model is predictable
-lda_pubmed <- LDA(dtm_pubmed, k = 7, control = list(seed = 1234))
+lda_pubmed <- LDA(dtm_pubmed, k = 4, control = list(seed = 1234))
 
 # compute word-topic probabilities
 topics_prob_pubmed <- tidy(lda_pubmed, matrix = "beta")
@@ -35,10 +35,7 @@ topic1 <- topic_max$term[topic_max$topic==1]
 topic2 <- topic_max$term[topic_max$topic==2]
 topic3 <- topic_max$term[topic_max$topic==3]
 topic4 <- topic_max$term[topic_max$topic==4]
-topic5 <- topic_max$term[topic_max$topic==5]
-topic6 <- topic_max$term[topic_max$topic==6]
-topic7 <- topic_max$term[topic_max$topic==7]
-group <- list(topic1,topic2,topic3,topic4,topic5,topic6,topic7)
+group <- list(topic1,topic2,topic3,topic4)
 
 # create a cor matrix of the dtm
 matrix_pubmed <- as.matrix(dtm_pubmed)
