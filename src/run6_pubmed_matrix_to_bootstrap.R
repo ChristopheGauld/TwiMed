@@ -6,6 +6,9 @@
 # version         : 3
 # ==============================================================================
 
+library(dplyr)
+library(tidyr)
+
 
 #### Use run_pubmed to obtain the matrix_pubmed
 
@@ -17,7 +20,7 @@ words_pubmed15 = tidy.pubmed3$word[1:15]
 
 library(boot)
 # Je définis la fonction occurence qui retourne le nombre d’occurence d’un word dans le vecteur data. Je laisse la ligne d =  data[indices] qui semble être nécessaire pour sélectionner les échantillons de data avec remise.
-occurence_random_tweet <- function(data, indices, word) {
+occurence_random_words <- function(data, indices, word) {
   ab.pubmed <- data[indices,] # allows boot to select sample
   tidy_pub <- ab.pubmed %>%
     unnest_tokens(word, text, token="words", strip_url=TRUE)
@@ -33,14 +36,8 @@ for (i in 1:15) {
   names(results)[i]=words_pubmed15[i] # On donne le mot en nom de variable du dataframe
   print(names(results)[i])
 }
-summary(results[,1])
-quantile(results[,1],c(.025,.975)) #IC bootsrap
-PropCIs::exactci(281,15378,.95)$conf.int*15378 #IC méthode exacte de Clopper et Pearson (en piochant au hasard dans les AB)
-
 
 ## Reformat the data for ggplot
-library(dplyr)
-library(tidyr)
 plotData <- gather(results,words,occurency
                    ,factor_key = TRUE) #sert à avoir un plot ordonné ensuite
 
