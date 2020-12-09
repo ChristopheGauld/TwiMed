@@ -23,7 +23,7 @@ library(boot)
 occurence_random_words <- function(data, indices, word) {
   ab.pubmed <- data[indices,] # allows boot to select sample
   tidy_pub <- ab.pubmed %>%
-    unnest_tokens(word, text, token="words", strip_url=TRUE)
+    unnest_tokens(word, AB)
   return(sum(tidy_pub$word == word))
 }
 # initialisation d'un tableau de résultat vide
