@@ -6,15 +6,16 @@
 # version         : 4
 # ==============================================================================
 
-input_file <- "../data/twitter_tdm.Rdata"
-output_file <- "../fig/fig1.pdf"
-
 library(boot)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+source("load_function_violin.R")
 
 #### load the tidy objet of twitter words
+input_file <- "../data/twitter_tdm.Rdata"
+output_file <- "../fig/fig1a.pdf"
+
 load(input_file)
 
 words15 <- tidy_twitter4$word[1:15]

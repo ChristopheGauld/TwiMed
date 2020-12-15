@@ -9,7 +9,7 @@
 library(pubmedR)
 library(bibliometrix)
 
-output_file <- "data/pubmed.Rdata"
+output_file <- "../data/pubmed.Rdata"
 
 # pubmed extraction
 search_query <- ("autis*")

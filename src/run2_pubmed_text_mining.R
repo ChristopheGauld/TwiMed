@@ -11,8 +11,8 @@ rm(list=ls())
 library(tidytext)
 library(stringr)
 
-input_file <- "data/pubmed.Rdata" # Le premier dataframe du prg 1
-output_file <- "data/pubmed_tdm.Rdata"
+input_file <- "../data/pubmed.Rdata" # Le premier dataframe du prg 1
+output_file <- "../data/pubmed_tdm.Rdata"
 
 # load the pubmed dataframe
 load(input_file)
@@ -38,4 +38,4 @@ tidy.pubmed3 <- dplyr::count(tidy.pubmed2, PMID, word)
 dtm_pubmed <- cast_dtm(tidy.pubmed3, PMID, word, n)
 
 # save
-save(ab.pubmed, tidy.pubmed3, dtm_pubmed, file = output_file)
+save(ab.pubmed, tidy.pubmed2, tidy.pubmed3, dtm_pubmed, file = output_file)
