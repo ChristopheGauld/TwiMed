@@ -21,7 +21,6 @@ output_file <- "../fig/fig1b.pdf"
 load(input_file)
 
 # Save the 15 most frequent words (repeat)
-tidy.pubmed3 <- count(tidy.pubmed2,word,sort=TRUE)
 words_pubmed15 = tidy.pubmed3$word[1:15]
 
 # Bootsrap des occurences et raincloud plot #####
