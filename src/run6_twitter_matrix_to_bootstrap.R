@@ -10,6 +10,8 @@ library(boot)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
+library(cowplot) 
+library(ggsci) 
 source("load_function_violin.R")
 
 #### load the tidy objet of twitter words
