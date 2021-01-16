@@ -46,18 +46,18 @@ for (i in 1:15) {
 source("/geom_flat_violin.R") # cf run_twitter_03b
 
 ## Select  columns + reorder
-inputData <- select(results,c("social",	"brain"	,"parents",	"clinical","behavior",	"genetic",	"development",	"genes",	"risk",	"diagnosis",	"health",	"individuals",	"treatment",	"gene",	"protein"))
+inputData_pubmed <- select(results,colnames(results))
 
 ## Reformater 
-plotData <- gather(inputData,
+plotData_pubmed <- gather(inputData_pubmed,
                    condition,
                    value,
-                   colnames(inputData),
+                   colnames(inputData_pubmed),
                    factor_key = TRUE) %>%
   filter(value != "") 
 
 ## Plot
-ggplot(plotData, aes(x = condition, y = value, fill = condition, color = condition)) +
+ggplot(plotData_pubmed, aes(x = condition, y = value, fill = condition, color = condition)) +
   ggtitle("Bootstrap of the unique words count find in PubMed") +
   ylab("Top fifteen words") +
   xlab("Assigned Probability Score") +
