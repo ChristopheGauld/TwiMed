@@ -2,8 +2,8 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for bootstrat PubMed data
-# date            : 2020-05-30
-# version         : 3
+# date            : 2021-01-16
+# version         : 4
 # ==============================================================================
 
 library(boot)
@@ -41,20 +41,58 @@ for (i in 1:15) {
   print(names(results)[i])
 }
 
-## Reformat the data for ggplot
-plotData <- gather(results,words,occurency
-                   ,factor_key = TRUE) #sert à avoir un plot ordonné ensuite
-
 ## And plot the data
 source("/geom_flat_violin.R") # cf run_twitter_03b
-p <- ggplot(plotData,aes(x=plotData[,1],y=plotData[,2], 
-                          fill = plotData[,1], colour = plotData[,1]),trim = TRUE)+
-  geom_flat_violin(position = position_nudge(x = .3, y = 0), adjust = 1)+
-  geom_point(position = position_jitter(width = .2,height = 0), size = .3) +
-  guides(fill=FALSE, colour = FALSE)+
-  ylab("ylab") +
-  xlab("xlab") +
-  coord_flip() 
+
+## Select  columns + reorder
+inputData <- select(results,c("social",	"brain"	,"parents",	"clinical","behavior",	"genetic",	"development",	"genes",	"risk",	"diagnosis",	"health",	"individuals",	"treatment",	"gene",	"protein"))
+
+## Reformater 
+plotData <- gather(inputData,
+                   condition,
+                   value,
+                   colnames(inputData),
+                   factor_key = TRUE) %>%
+  filter(value != "") 
+
+## Plot
+ggplot(plotData, aes(x = condition, y = value, fill = condition, color = condition)) +
+  ggtitle("Bootstrap of the unique words count find in PubMed") +
+  ylab("Top fifteen words") +
+  xlab("Assigned Probability Score") +
+  theme_cowplot() +
+  scale_shape_identity() +
+  theme(legend.position = "none",
+        plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15),
+        axis.text = element_text(size = 12),
+        axis.text.x = element_text(angle = 0, 
+                                   hjust = 0,
+                                   vjust = 0)) +
+  scale_color_igv() +
+  scale_fill_igv() +
+  geom_point(position = position_jitter(0.2), 
+             size = 0, 
+             alpha = 1, 
+             aes(shape = 16)) +
+  geom_flat_violin(position = position_nudge(x = 0.25, y = 0),
+                   adjust = 2,
+                   alpha = 0.6, 
+                   trim = TRUE, 
+                   scale = "width") +
+  geom_boxplot(aes(x = as.numeric(condition) + 0.25, y = value), 
+               notch = TRUE, 
+               width = 0.1, 
+               varwidth = FALSE, 
+               outlier.shape = NA, 
+               alpha = 0.3, 
+               colour = "black", 
+               show.legend = FALSE) +
+  coord_flip()
+
+
+
+
 
 # plot in a pdf file
 pdf(file = output_file)
