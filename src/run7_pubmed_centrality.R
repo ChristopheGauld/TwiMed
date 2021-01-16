@@ -6,7 +6,6 @@
 # version         : 4
 # ==============================================================================
 
-
 library(qgraph)
 # matrix ponderation 
 S <- getWmat(Q,directed = FALSE)
