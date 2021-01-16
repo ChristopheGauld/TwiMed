@@ -39,27 +39,56 @@ for (i in 1:15) {
   names(results2)[i] <- words15[i] 
 print(names(results2)[i])
 }
-summary(results2[,1])
-quantile(results2[,1],c(.025,.975))
-PropCIs::exactci(281,15378,.95)$conf.int*15378
 
-## Reformat the data for ggplot
-library(dplyr)
-library(tidyr)
-plotData <- gather(results,wordname,occurency
-                   ,factor_key = TRUE) #to have a sort plot
 
 ## And plot the data
-library(ggplot2)
 source("../src/run5_twitter_load_function_violin.R") 
-p <- ggplot(plotData,aes(x=plotData[,1],y=plotData[,2], 
-                          fill = plotData[,1], colour = plotData[,1]),trim = TRUE)+
-  geom_flat_violin(position = position_nudge(x = .3, y = 0), adjust = 1)+
-  geom_point(position = position_jitter(width = .2,height = 0), size = .3) +
-  guides(fill=FALSE, colour = FALSE)+
-  ylab("ylab") +
-  xlab("xlab") +
-  coord_flip() 
+
+inputData_twitter <- select(results,colnames(results))
+
+## Reformater 
+plotData_twit <- gather(inputData_twitter,
+                   condition,
+                   value,
+                   colnames(inputData_twitter),
+                   factor_key = TRUE) %>%
+  filter(value != "") 
+
+## Plot
+ggplot(plotData_twit, aes(x = condition, y = value, fill = condition, color = condition)) +
+  ggtitle("Bootstrap of the unique words count find in Twitter") +
+  ylab("Top fifteen words") +
+  xlab("Assigned Probability Score") +
+  theme_cowplot() +
+  scale_shape_identity() +
+  theme(legend.position = "none",
+        plot.title = element_text(size = 20),
+        axis.title = element_text(size = 15),
+        axis.text = element_text(size = 12),
+        axis.text.x = element_text(angle = 0, 
+                                   hjust = 0,
+                                   vjust = 0)) +
+  scale_color_igv() +
+  scale_fill_igv() +
+  geom_point(position = position_jitter(0.2), 
+             size = 0, 
+             alpha = 1, 
+             aes(shape = 16)) +
+  geom_flat_violin(position = position_nudge(x = 0.25, y = 0),
+                   adjust = 2,
+                   alpha = 0.6, 
+                   trim = TRUE, 
+                   scale = "width") +
+  geom_boxplot(aes(x = as.numeric(condition) + 0.25, y = value), 
+               notch = TRUE, 
+               width = 0.1, 
+               varwidth = FALSE, 
+               outlier.shape = NA, 
+               alpha = 0.3, 
+               colour = "black", 
+               show.legend = FALSE) +
+  coord_flip()
+
 
 # plot in a pdf file
 pdf(file = output_file)
