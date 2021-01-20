@@ -47,4 +47,4 @@ dtm_twitter <- cast_dtm(tidy_twitter3, id, word, n)
 tidy_twitter4 <- dplyr::count(tidy_twitter2, word, sort=TRUE)
 
 # save
-save(tidy_twitter3, tidy_twitter4, dtm_twitter, autis_tweets, file = output_file)
+save(tidy_twitter, tidy_twitter2, tidy_twitter3, tidy_twitter4, dtm_twitter, autis_tweets, file = output_file)
