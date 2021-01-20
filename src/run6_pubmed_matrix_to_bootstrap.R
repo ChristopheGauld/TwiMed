@@ -6,6 +6,8 @@
 # version         : 5 (Guillaume Dumas)
 # ==============================================================================
 
+rm(list=ls())
+
 library(boot)
 library(dplyr)
 library(tidyr)
