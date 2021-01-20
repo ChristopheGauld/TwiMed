@@ -54,7 +54,7 @@ Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "blue", negCol = "NA
             label.scale = TRUE,
             labels = TRUE,
             esize = 3,
-            minimum = 0.2
+            minimum = 0.2,
             repulsion = 1., 
             legend.mode = "style2", # groupe quand 500 noeuds
             nodeNames= TRUE,
