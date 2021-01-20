@@ -97,10 +97,14 @@ group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_re
 # cor_matrix <- cor(matrix_pubmed)
 
 # create a qgraph object
-pdf(file = output_file1)
+pdf(file = output_file1, width=14, height=14)
 Q <- qgraph(cor_matrix_reduite, layout = "spring", posCol = "red", negCol = "NA",
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.1,
             groups = group_matrix_reduite,
+            vsize = 0.5,
+            curveAll = TRUE,
+            esize = 1.,
+            label.cex = 2,
             label.scale = TRUE,
             labels = FALSE,
             minimum = 0.08, # 0.15 quand 500 noeuds
@@ -110,7 +114,6 @@ Q <- qgraph(cor_matrix_reduite, layout = "spring", posCol = "red", negCol = "NA"
             sampleSize = nrow(cor_matrix_reduite),
             alpha = 0.05, # Pour ne prendre en compte que les corrélations statistiquement significatifs, en tenant compte de l'inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
             palette = "pastel",
-            vsize = 0.5,
             cut = 0.5)
 dev.off()
 
