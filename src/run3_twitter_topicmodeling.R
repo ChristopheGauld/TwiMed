@@ -3,8 +3,8 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for topic modeling
-# date            : 2020-06-04
-# version         : 4
+# date            : 2021-01-19
+# version         : 5 (Guillaume Dumas)
 # ==============================================================================
 
 rm(list=ls())
@@ -42,4 +42,4 @@ group <- list(topic1,topic2,topic3,topic4)
 matrix_twitter <- as.matrix(dtm_twitter)
 
 # save
-save(matrix_twitter, group, file = output_file)
+save(matrix_twitter, topics_prob_twitter, group, file = output_file)
