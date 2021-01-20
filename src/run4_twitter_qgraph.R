@@ -42,7 +42,7 @@ group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_re
 
 # create a qgraph object
 pdf(file = output_file1)
-Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "blue", negCol = "NA",
+Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "red", negCol = "NA",
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             groups = group_matrix_reduite,
             label.scale = TRUE,
@@ -88,7 +88,7 @@ group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_re
 
 # create a qgraph object
 pdf(file = output_file1, width=14, height=14)
-Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "blue", negCol = "NA",
+Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "red", negCol = "NA",
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             vsize = 3,
             curveAll = TRUE,
