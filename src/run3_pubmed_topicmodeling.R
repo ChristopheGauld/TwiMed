@@ -2,8 +2,8 @@
 # coding=utf-8
 # ==============================================================================
 # description     : class words in groups by topic modeling
-# date            : 2020-05-12
-# version         : 3
+# date            : 2021-01-19
+# version         : 4 (Guillaume Dumas)
 # ==============================================================================
 
 rm(list=ls())
@@ -41,4 +41,4 @@ group <- list(topic1,topic2,topic3,topic4)
 matrix_pubmed <- as.matrix(dtm_pubmed)
 
 # save
-save(matrix_pubmed, group, file = output_file)
+save(matrix_pubmed, topics_prob_pubmed, group, file = output_file)
