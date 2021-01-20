@@ -2,8 +2,8 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for qgraph from Twitter matrix
-# date            : 2020-06-04
-# version         : 4
+# date            : 2021-01-19
+# version         : 5 (Guillaume Dumas)
 # ==============================================================================
 
 rm(list=ls())
@@ -22,7 +22,7 @@ load(input_file2)
 
 # Selection of the 50 most frequent words to plot the graph
 nNode <- 50
-freq_word <- dplyr::top_n(dplyr::count(tidy_twitter4, word), nNode, n)
+freq_word <- dplyr::top_n(dplyr::count(tidy_twitter2, word), nNode, n)
 matrix_reduite <- matrix_twitter[, freq_word$word]
 cor_matrix_reduite <- cor(matrix_reduite)
 
@@ -76,7 +76,7 @@ load(input_file2)
 
 # Selection of the 50 most frequent words to plot the graph
 nNode <- 2000
-freq_word <- dplyr::top_n(dplyr::count(tidy_twitter4, word), nNode, n)
+freq_word <- dplyr::top_n(dplyr::count(tidy_twitter2, word), nNode, n)
 matrix_reduite <- matrix_twitter[, freq_word$word]
 
 cor_matrix_reduite <- cor(matrix_reduite)
@@ -87,7 +87,7 @@ group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]])
 group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
 # create a qgraph object
-pdf(file = output_file1, width=14,height=14)
+pdf(file = output_file1, width=14, height=14)
 Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "blue", negCol = "NA",
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             vsize = 3,

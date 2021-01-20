@@ -2,8 +2,8 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline to create matrix
-# date            : 2020-05-30
-# version         : 3
+# date            : 2021-01-19
+# version         : 4 (Guillaume Dumas)
 # ==============================================================================
 
 rm(list=ls())
@@ -22,7 +22,7 @@ load(input_file2)
 
 # definition de la matrice réduite à 50 noeuds
 nNode <- 50
-freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed3, word), nNode, n)
+freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word), nNode, n)
 matrix_reduite <- matrix_pubmed[, freq_word$word]
 cor_matrix_reduite <- cor(matrix_reduite)
 
@@ -83,7 +83,7 @@ load(input_file2)
 
 # definition de la matrice réduite à 50 noeuds
 nNode <- 2000
-freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed3, word), nNode, n)
+freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word), nNode, n)
 matrix_reduite <- matrix_pubmed[, freq_word$word]
 
 cor_matrix_reduite <- cor(matrix_reduite)
