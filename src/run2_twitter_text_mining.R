@@ -32,7 +32,7 @@ tidy_twitter <- autis_tweets %>%
 
 # cleaning
 data("stop_words")
-stop_words = rbind(stop_words,"autism","asd", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "covid", "2020", "behavioral","increased","found","identified","patients","reported","including","developing","examined","participants","suggest","compared","significantly","based","na","findings","related","results","children","significant","spectrum","study","control","provide","review","studies","effects","analysis","specific","age","data","behaviors","observed","potential","lower","included","scale")
+stop_words = rbind(stop_words, "amp", "autism", "asd", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "covid", "2020", "behavioral","increased","found","identified","patients","reported","including","developing","examined","participants","suggest","compared","significantly","based","na","findings","related","results","children","significant","spectrum","study","control","provide","review","studies","effects","analysis","specific","age","data","behaviors","observed","potential","lower","included","scale")
 tidy_twitter2 <- dplyr::anti_join(tidy_twitter, stop_words)
 tidy_twitter2 <- tidy_twitter2[!str_detect(tidy_twitter2$word,"autis"),]
 tidy_twitter2 <- tidy_twitter2[!str_detect(tidy_twitter2$word, "disorder"),]

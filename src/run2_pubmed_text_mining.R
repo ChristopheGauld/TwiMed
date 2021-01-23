@@ -25,7 +25,7 @@ tidy.pubmed <- unnest_tokens(ab.pubmed, word, AB)
 
 # remove common words and words containing "autism" or  "disorder"
 data("stop_words")
-stop_words = rbind(stop_words,"autism","asd", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "covid", "2020", "behavioral","increased","found","identified","patients","reported","including","developing","examined","participants","suggest","compared","significantly","based","na","findings","related","results","children","significant","spectrum","study","control","provide","review","studies","effects","analysis","specific","age","data","behaviors","observed","potential","lower","included","scale")
+stop_words = rbind(stop_words, "amp", "autism", "asd", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "covid", "2020", "behavioral","increased","found","identified","patients","reported","including","developing","examined","participants","suggest","compared","significantly","based","na","findings","related","results","children","significant","spectrum","study","control","provide","review","studies","effects","analysis","specific","age","data","behaviors","observed","potential","lower","included","scale")
 class(tidy.pubmed) <- c("bibliometrixDB", "data.frame")
 tidy.pubmed2 <- dplyr::anti_join(tidy.pubmed, stop_words)
 tidy.pubmed2 <- tidy.pubmed2[!str_detect(tidy.pubmed2$word, "autis"),]
