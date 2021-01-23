@@ -72,8 +72,8 @@ rm(list=ls())
 
 input_file1 <- "../data/pubmed_tdm.Rdata"
 input_file2 <- "../data/pubmed_tdm_group.Rdata"
-output_file1 <- "../fig/pubmed_graph_2000.pdf"
-output_file2 <- "../data/pubmed_qgraph_2000.Rdata"
+output_file1 <- "../fig/pubmed_graph_500.pdf"
+output_file2 <- "../data/pubmed_qgraph_500.Rdata"
 
 library(qgraph)
 
@@ -82,7 +82,7 @@ load(input_file1)
 load(input_file2)
 
 # definition de la matrice réduite à 50 noeuds
-nNode <- 2000
+nNode <- 500
 freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word), nNode, n)
 matrix_reduite <- matrix_pubmed[, freq_word$word]
 
@@ -97,16 +97,17 @@ group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_re
 # cor_matrix <- cor(matrix_pubmed)
 
 # create a qgraph object
-pdf(file = output_file1, width=14, height=14)
+pdf(file = output_file1, width=50, height=50)
 Q <- qgraph(cor_matrix_reduite, layout = "spring", posCol = "red", negCol = "NA",
-            nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.1,
+            nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             groups = group_matrix_reduite,
-            vsize = 0.5,
-            curveAll = TRUE,
+            vsize = 1,
+            curveAll = FALSE,
             esize = 1.,
             label.cex = 2,
             label.scale = TRUE,
-            labels = FALSE,
+            label.fill.horizontal = 0.7,
+            labels = TRUE,
             minimum = 0.08, # 0.15 quand 500 noeuds
             repulsion = 1., # Augmenter la distance entre les noeuds pour améliorer la visualisation en "cluster"
             legend.mode = "style2", # groupe quand 500 noeuds
