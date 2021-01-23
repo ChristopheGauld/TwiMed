@@ -6,9 +6,17 @@
 # version         : 3
 # ==============================================================================
 
+rm(list=ls())
+
 # Visualisation of 10 most common terms in each topic
 library(ggplot2)
 library(tidyr)
+
+input_file <- "../data/pubmed_tdm_group.Rdata"
+
+# load the pubmed dataframe
+load(input_file)
+
 
 top_terms_topic_pubmed <- topics_prob_pubmed %>%
   group_by(topic) %>%
