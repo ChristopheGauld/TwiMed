@@ -24,6 +24,7 @@ load(input_file2)
 nNode <- 50
 freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word), nNode, n)
 matrix_reduite <- matrix_pubmed[, freq_word$word]
+save(matrix_reduite, file="../data/pubmed_matrix_reduite.Rdata")
 cor_matrix_reduite <- cor(matrix_reduite)
 
 # Best numbers of Clusters
