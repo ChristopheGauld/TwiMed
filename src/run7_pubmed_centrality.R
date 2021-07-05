@@ -9,6 +9,10 @@
 rm(list=ls())
 
 library(qgraph)
+library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 
 input_file <- "../data/pubmed_qgraph_50.Rdata"
 output_file1 <- "../fig/fig3a.pdf"
