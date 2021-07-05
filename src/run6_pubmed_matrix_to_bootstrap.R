@@ -96,8 +96,8 @@ p <- ggplot(plotData_pubmed, aes(x = condition, y = value, fill = condition, col
                          outlier.shape = NA, 
                          alpha = 0.3, 
                          colour = "black", 
-                         show.legend = FALSE) +
-            coord_flip()
+                         show.legend = FALSE)
+            #+ coord_flip()
 
 pdf(file = output_file1, width=14, height=14)
 print(p)
