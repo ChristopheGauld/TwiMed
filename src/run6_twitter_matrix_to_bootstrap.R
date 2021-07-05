@@ -95,7 +95,7 @@ p <- ggplot(plotData_twit, aes(x = condition, y = value, fill = condition, color
                          alpha = 0.3, 
                          colour = "black", 
                          show.legend = FALSE) + 
-            coord_flip()
+            #+ coord_flip()
 
 pdf(file = output_file1, width=14, height=14)
 print(p)
