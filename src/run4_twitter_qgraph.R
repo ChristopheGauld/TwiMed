@@ -13,6 +13,7 @@ input_file2 <- "../data/twitter_tdm_group.Rdata"
 output_file1 <- "../fig/twitter_graph_50.pdf"
 output_file2 <- "../data/twitter_qgraph_50.Rdata"
 
+library(tidyverse)
 library(qgraph)
 library(NbClust)
 
@@ -175,3 +176,4 @@ dev.off()
 
 # save
 save(Q, file = output_file2)
+

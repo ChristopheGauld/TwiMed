@@ -13,10 +13,11 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(cowplot) 
-library(ggsci) 
+library(ggsci)
+library(tidytext)
 source("load_function_violin.R")
 
-#### load the tidy objet of twitter words
+# Load the tidy objects of twitter words
 input_file <- "../data/twitter_tdm.Rdata"
 output_file1 <- "../fig/twitter_bs.pdf"
 output_file2 <- "../data/twitter_bs.Rdata"
@@ -37,7 +38,7 @@ occurence_random_tweet <- function(data, indices, word) {
   return(sum(tidy_twitter$word == word))
 }
 
-# initialisation d'un tableau de résultat vide
+# Initialization with an empty table
 results2 <- matrix(NA,n_bs,15)
 results2 <- as.data.frame(results2)
 # For each of the 15 words, we calculate the values of bootstrap and put them in a column of the results table
@@ -49,20 +50,15 @@ for (i in 1:15) {
 }
 save(results2, file = output_file2)
 
-## And plot the data
-#source("load_function_violin.R") 
-
+# Reformat the data
 inputData_twitter <- select(results2,colnames(results2))
-
-## Reformater 
 plotData_twit <- gather(inputData_twitter,
                    condition,
                    value,
                    colnames(inputData_twitter),
-                   factor_key = TRUE) %>%
-  filter(value != "") 
+                   factor_key = TRUE) %>% filter(value != "") 
 
-## Plot
+# Plot
 p <- ggplot(plotData_twit, aes(x = condition, y = value, fill = condition, color = condition)) +
             ggtitle("Bootstrap of the unique words count find in Twitter") +
             ylab("Top fifteen words") +

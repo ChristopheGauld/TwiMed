@@ -13,6 +13,7 @@ input_file2 <- "../data/pubmed_tdm_group.Rdata"
 output_file1 <- "../fig/pubmed_graph_50.pdf"
 output_file2 <- "../data/pubmed_qgraph_50.Rdata"
 
+library(tidyverse)
 library(qgraph)
 library(NbClust)
 
@@ -57,7 +58,7 @@ names(group_matrix_reduite) <- types_names
 
 
 label_nodes <- c("Communication",
-                 "Developmental"
+                 "Developmental",
                  "Diagnosis",
                  "Diagnostic",
                  "Evidence",

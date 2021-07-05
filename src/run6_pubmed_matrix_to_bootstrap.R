@@ -13,7 +13,8 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(cowplot) 
-library(ggsci) 
+library(ggsci)
+library(tidytext)
 source("load_function_violin.R")
 
 #### Use run_pubmed to obtain the matrix_pubmed
