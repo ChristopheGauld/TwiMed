@@ -16,6 +16,9 @@ output_file2 <- "../data/twitter_qgraph_50.Rdata"
 library(tidyverse)
 library(qgraph)
 library(NbClust)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
 
 # load the pubmed tidy object and the terms order by group after topic modeling
 load(input_file1)
