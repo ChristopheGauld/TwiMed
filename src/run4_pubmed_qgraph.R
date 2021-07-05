@@ -44,22 +44,95 @@ group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_re
 # Définition de la matrice de corrélation de taille normale
 # cor_matrix <- cor(matrix_pubmed)
 
+
+types_names <- str_to_upper(c("A.Diagnosis and Skills",
+                              "B.Research Challenges",
+                              "C.Clinical and Therapeutical Challenges",
+                              "D.Neuropsychology and Behaviors"))
+names(group_matrix_reduite) <- types_names
+
+
+# Définition de la matrice de corrélation de taille normale
+# cor_matrix <- cor(matrix_pubmed)
+
+
+label_nodes <- c("Communication",
+                 "Developmental"
+                 "Diagnosis",
+                 "Diagnostic",
+                 "Evidence",
+                 "Individuals",
+                 "Mental",
+                 "Parents",
+                 "Research",
+                 "Skills",
+                 "Subjects",
+                 "Syndrome",
+                 "ADHD",
+                 "Adults",
+                 "Controls",
+                 "Genetic",
+                 "Human",
+                 "Intervention",
+                 "Mice",
+                 "Neurodevelopmental",
+                 "Social",
+                 "Symptoms",
+                 "Time",
+                 "Clinical",
+                 "Deficits",
+                 "Development",
+                 "Disease",
+                 "Expression",
+                 "Factors",
+                 "Function",
+                 "Functioning",
+                 "Gene",
+                 "Language",
+                 "Levels",
+                 "Model",
+                 "Population",
+                 "Processing",
+                 "Risk",
+                 "Treatment",
+                 "Association",
+                 "Attention",
+                 "Behavior",
+                 "Brain",
+                 "Child",
+                 "Cognitive",
+                 "Differences",
+                 "Functional",
+                 "Genes",
+                 "Health",
+                 "Role")
+
+label_nodes_alphab <- sort(label_nodes, decreasing = FALSE)
+
+
+
 # create a qgraph object
 pdf(file = output_file1)
-Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "red", negCol = "NA",
+Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "black", negCol = "NA",
             vsize = 3,
-            label.cex = 2,
+            label.cex = 5,
+            label.prop = 1,
+            shape = "circle",
             curveAll = TRUE,
+            label.norm = "OOOOOOOOOO",
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             groups = group_matrix_reduite,
             label.scale = TRUE,
-            labels = TRUE,
             esize = 3,
-            minimum = 0.2,
-            repulsion = 1., 
-            legend.mode = "style2", # groupe quand 500 noeuds
-            nodeNames= TRUE,
+            minimum = 0.1,
+            repulsion = 1.,
+            labels = label_nodes_alphab,
+            label.scale= FALSE,
+            legend.mode = "groups", # groupe quand 500 noeuds
+            nodeNames= label_nodes,
+            legend.cex = 3,
             sampleSize = nrow(cor_matrix_reduite),
+            layoutOffset = c(-0.24,0),
             alpha = 0.05, # inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
             palette = "pastel",
             vsize = 4,
