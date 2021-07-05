@@ -41,51 +41,6 @@ group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]])
 group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
 group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
-# create a qgraph object
-pdf(file = output_file1)
-Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "red", negCol = "NA",
-            nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
-            groups = group_matrix_reduite,
-            label.scale = TRUE,
-            curveAll = TRUE,
-            labels = TRUE,
-            minimum = 0.08, 
-            repulsion = 1., 
-            legend.mode = "style2",
-            nodeNames= TRUE,
-            sampleSize = nrow(cor_matrix_reduite),
-            alpha = 0.05, #inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
-            palette = "pastel",
-            vsize = 4,
-            cut = 0.3)
-dev.off()
-
-# save
-save(Q, file = output_file2)
-
-
-rm(list=ls())
-
-input_file1 <- "../data/twitter_tdm.Rdata"
-input_file2 <- "../data/twitter_tdm_group.Rdata"
-output_file1 <- "../fig/twitter_graph_500.pdf"
-output_file2 <- "../data/twitter_qgraph_500.Rdata"
-
-# load the pubmed tidy object and the terms order by group after topic modeling
-load(input_file1)
-load(input_file2)
-
-# Selection of the 50 most frequent words to plot the graph
-nNode <- 500
-freq_word <- dplyr::top_n(dplyr::count(tidy_twitter2, word), nNode, n)
-matrix_reduite <- matrix_twitter[, freq_word$word]
-
-cor_matrix_reduite <- cor(matrix_reduite)
-group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
-group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
-group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
-group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
-group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
 types_names <- str_to_upper(c("A.Integration and Social Support",
                               "B.Understanding and Mental Health",
@@ -145,6 +100,51 @@ label_nodes <- c("Amazing",
 
 label_nodes_alphab <- sort(label_nodes, decreasing = FALSE)
 
+# create a qgraph object
+pdf(file = output_file1)
+Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "red", negCol = "NA",
+            nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
+            groups = group_matrix_reduite,
+            label.scale = TRUE,
+            curveAll = TRUE,
+            labels = TRUE,
+            minimum = 0.08, 
+            repulsion = 1., 
+            legend.mode = "style2",
+            nodeNames= TRUE,
+            sampleSize = nrow(cor_matrix_reduite),
+            alpha = 0.05, #inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
+            palette = "pastel",
+            vsize = 4,
+            cut = 0.3)
+dev.off()
+
+# save
+save(Q, file = output_file2)
+
+
+rm(list=ls())
+
+input_file1 <- "../data/twitter_tdm.Rdata"
+input_file2 <- "../data/twitter_tdm_group.Rdata"
+output_file1 <- "../fig/twitter_graph_500.pdf"
+output_file2 <- "../data/twitter_qgraph_500.Rdata"
+
+# load the pubmed tidy object and the terms order by group after topic modeling
+load(input_file1)
+load(input_file2)
+
+# Selection of the 50 most frequent words to plot the graph
+nNode <- 500
+freq_word <- dplyr::top_n(dplyr::count(tidy_twitter2, word), nNode, n)
+matrix_reduite <- matrix_twitter[, freq_word$word]
+
+cor_matrix_reduite <- cor(matrix_reduite)
+group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
+group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
+group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
+group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
+group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
 # create a qgraph object
 pdf(file = output_file1, width=50, height=50)
