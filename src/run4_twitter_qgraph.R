@@ -86,26 +86,91 @@ group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]])
 group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
 group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
+types_names <- str_to_upper(c("A.Integration and Social Support",
+                              "B.Understanding and Mental Health",
+                              "C.Child Welfare",
+                              "D.Daily Challenges and Difficulties"))
+names(group_matrix_reduite) <- types_names
+label_nodes <- c("Amazing",
+                "Awareness",
+                "Blue",
+                "Book",
+                "Celebrate",
+                "Coronavirus",
+                "Covid19",
+                "Family",
+                "Free",
+                "Inclusion",
+                "Kids",
+                "Light",
+                "Month",
+                "People",
+                "Raise",
+                "Social",
+                "Support",
+                "ADHD",
+                "Community",
+                "Join",
+                "Learning",
+                "Life",
+                "Love",
+                "Neurodiversity",
+                "Parents",
+                "School",
+                "Special",
+                "Video",
+                "Week",
+                "World",
+                "19",
+                "Child",
+                "Day ",
+                "Happy",
+                "Hope",
+                "It…s",
+                "Lightupblue",
+                "Read",
+                "Share",
+                "Son",
+                "Understand",
+                "Understanding",
+                "Acceptance",
+                "April",
+                "Check",
+                "Disabilities",
+                "Families",
+                "Home",
+                "Learn",
+                "Time")
+
+label_nodes_alphab <- sort(label_nodes, decreasing = FALSE)
+
+
 # create a qgraph object
 pdf(file = output_file1, width=50, height=50)
-Q <- qgraph(cor_matrix_reduite, layout = "spring", posCol = "red", negCol = "NA",
+Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "black", negCol = "NA",
+            vsize = 3,
+            label.cex = 5,
+            label.prop = 1,
+            shape = "circle",
+            curveAll = TRUE,
+            label.norm = "OOOOOOOOOO",
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             groups = group_matrix_reduite,
-            vsize = 1,
-            curveAll = FALSE,
-            esize = 1,
-            label.cex = 2,
             label.scale = TRUE,
-            label.fill.horizontal = 0.7,
-            labels = TRUE,
-            minimum = 0.08, # 0.15 quand 500 noeuds
-            repulsion = 1., # Augmenter la distance entre les noeuds pour améliorer la visualisation en "cluster"
-            legend.mode = "style2", # groupe quand 500 noeuds
-            nodeNames= TRUE,
+            esize = 3,
+            minimum = 0.1,
+            repulsion = 1.,
+            labels = label_nodes_alphab,
+            label.scale= FALSE,
+            legend.mode = "groups", # groupe quand 500 noeuds
+            nodeNames= label_nodes,
+            legend.cex = 3,
             sampleSize = nrow(cor_matrix_reduite),
-            alpha = 0.05, # Pour ne prendre en compte que les corrélations statistiquement significatifs, en tenant compte de l'inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
+            layoutOffset = c(-0.24,0),
+            alpha = 0.05, # inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
             palette = "pastel",
-            cut = 0.5)
+            vsize = 4,
+            cut = 0.3)
 dev.off()
 
 # save
