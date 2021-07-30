@@ -19,7 +19,7 @@ source("load_function_violin.R")
 
 # Load the tidy objects of twitter words
 input_file <- "../data/twitter_tdm.Rdata"
-output_file1 <- "../fig/twitter_bs.pdf"
+output_file1 <- "../fig/fig2a.pdf"
 output_file2 <- "../data/twitter_bs.Rdata"
 load(input_file)
 runFlag <- FALSE
