@@ -2,7 +2,7 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for centralities with qgraph object
-# date            : 2021-01-19
+# date            : 2021-07-30
 # version         : 5 (Guillaume Dumas)
 # ==============================================================================
 
@@ -14,8 +14,8 @@ library(dplyr)
 library(tidyr)
 library(ggplot2)
 
-input_file <- "../data/pubmed_qgraph_50.Rdata"
-output_file <- "../fig/fig4b.pdf"
+input_file <- "../data/twitter_qgraph_50.Rdata"
+output_file <- "../fig/fig4a.pdf"
 load(input_file)
 
 # matrix ponderation 
