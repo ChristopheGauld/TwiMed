@@ -22,7 +22,6 @@ input_file <- "../data/twitter_tdm.Rdata"
 output_file1 <- "../fig/twitter_bs.pdf"
 output_file2 <- "../data/twitter_bs.Rdata"
 load(input_file)
-
 runFlag <- FALSE
 
 if (runFlag) {
