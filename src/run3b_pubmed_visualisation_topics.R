@@ -17,13 +17,14 @@ input_file <- "../data/pubmed_tdm_group.Rdata"
 # load the pubmed dataframe
 load(input_file)
 
-
+# top_terms_topic_pubmed 
 top_terms_topic_pubmed <- topics_prob_pubmed %>%
   group_by(topic) %>%
   top_n(10, beta) %>%
   ungroup() %>%
   arrange(topic, -beta)
 
+# mutate and choose top_terms_topic_pubmed 
 top_terms_topic_pubmed %>%
   mutate(term = reorder_within(term, beta, topic)) %>%
   ggplot(aes(term, beta, fill = factor(topic))) +
@@ -40,6 +41,7 @@ beta_spread <- topics_prob_pubmed %>%
   mutate(log_ratio = log2(topic2 / topic1))
 beta_spread
 
+# spread the words with the greatest difference
 top_beta_spread <- beta_spread %>%
   top_n(10, log_ratio) %>%
   arrange(-log_ratio)
@@ -48,6 +50,7 @@ down_beta_spread <- beta_spread %>%
   arrange(-log_ratio)
 top_beta_spread = rbind(top_beta_spread,down_beta_spread)
 
+# mutate and choose top_terms_topic_pubmed 
 top_beta_spread %>%
   mutate(term = reorder_within(term, log_ratio, log_ratio)) %>%
   ggplot(aes(term, log_ratio)) +
