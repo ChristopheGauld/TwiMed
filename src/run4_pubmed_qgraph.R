@@ -24,31 +24,32 @@ library(ggplot2)
 load(input_file1)
 load(input_file2)
 
-# definition de la matrice réduite à 50 noeuds
+# definition of the reduced matrix with 50 noeuds
 nNode <- 50
 freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word), nNode, n)
 matrix_reduite <- matrix_pubmed[, freq_word$word]
 save(matrix_reduite, file="../data/pubmed_matrix_reduite.Rdata")
 cor_matrix_reduite <- cor(matrix_reduite)
 
-# Best numbers of Clusters
+# choose the best numbers of Clusters
 resp<-NbClust(cor_matrix_reduite, distance = "euclidean", min.nc=2, max.nc=8, 
              method = "complete", index = "ch")
 resp$All.index
 resp$Best.nc
 resp$Best.partition
 
-# Groups
+# determine the number of groups
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
 group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
 group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
 group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
 group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
-# Définition de la matrice de corrélation de taille normale
+
+# eventually define the reduced correlation matrix 
 # cor_matrix <- cor(matrix_pubmed)
 
-
+# set the type names
 types_names <- str_to_upper(c("A.Diagnosis and Skills",
                               "B.Research Challenges",
                               "C.Clinical and Therapeutical Challenges",
@@ -77,7 +78,7 @@ Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "black", negCol = "N
             legend.cex = 3,
             sampleSize = nrow(cor_matrix_reduite),
             layoutOffset = c(-0.24,0),
-            alpha = 0.05, # inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
+            alpha = 0.05, # inflation of the alpha risk (Bonferroni method)
             palette = "pastel",
             vsize = 4,
             cut = 0.3)
@@ -98,11 +99,12 @@ output_file2 <- "../data/pubmed_qgraph_500.Rdata"
 load(input_file1)
 load(input_file2)
 
-# definition de la matrice réduite à 50 noeuds
+# definition of the reduced matrix with 500 noeuds
 nNode <- 500
 freq_word <- dplyr::top_n(dplyr::count(tidy.pubmed2, word), nNode, n)
 matrix_reduite <- matrix_pubmed[, freq_word$word]
 
+# determine the number of groups
 cor_matrix_reduite <- cor(matrix_reduite)
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
 group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
