@@ -32,8 +32,8 @@ if (runFlag) {
     # Take only the 15 most frequent words (repeat)
     words_pubmed15 = tidy.pubmed4$word[1:15]
 
-    # Bootsrap des occurences et raincloud plot #####
-    # Je définis la fonction occurence qui retourne le nombre d’occurence d’un word dans le vecteur data. Je laisse la ligne d =  data[indices] qui semble être nécessaire pour sélectionner les échantillons de data avec remise.
+    # Occurrency bootsrap and raincloud plot
+    # Occurency function returns the occurence number for a word in the 'data' vector
     occurence_random_words <- function(data, indices, word) {
       ab.pubmed <- data[indices,] # allows boot to select sample
       tidy_pub <- ab.pubmed %>%
@@ -41,16 +41,15 @@ if (runFlag) {
       return(sum(tidy_pub$word == word))
     }
 
-    # initialisation d'un tableau de résultat vide
+    # initialisation of a empty result table
     results=matrix(NA,n_bs,15)
     results=as.data.frame(results)
-    # Pour chacun des 15 mots, on calcule les 1000 valeurs de bootsrap et on les mets dans une colonne du tableau de résultats
-
+# For each of the 15 words, we calculate the 1000 values of bootsrap and we put them in a column of the results table
+    
     for (i in 1:15) {
       result <- boot(data=ab.pubmed, statistic=occurence_random_words, R=n_bs, word=words_pubmed15[i])
-      results[,i]=result$t # On remplit une colonne du dataframe des résultats avec les valeurs de bootsrap
-      names(results)[i]=words_pubmed15[i] # On donne le mot en nom de variable du dataframe
-      print(names(results)[i])
+      results[,i]=result$t # We fill a column of the dataframe of the results with the values of bootsrap
+      names(results)[i]=words_pubmed15[i] # We give the word as the variable name of the dataframe      print(names(results)[i])
     }
     save(results, file = output_file2)
 } else {
@@ -58,12 +57,13 @@ if (runFlag) {
 }
 
 ## And plot the data
-#source("load_function_violin.R") # cf run_twitter_03b
+#source("load_function_violin.R")
+# cf run_twitter_03b
 
 ## Select  columns + reorder
 inputData_pubmed <- select(results,colnames(results))
 
-## Reformater 
+## Reformate
 plotData_pubmed <- gather(inputData_pubmed,
                    condition,
                    value,
