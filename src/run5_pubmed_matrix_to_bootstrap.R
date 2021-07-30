@@ -22,7 +22,6 @@ input_file <- "../data/pubmed_tdm.Rdata"
 output_file1 <- "../fig/pubmed_bs.pdf"
 output_file2 <- "../data/pubmed_bs.Rdata"
 load(input_file)
-
 runFlag <- FALSE
 
 if (runFlag) {
