@@ -10,7 +10,6 @@ library(rtweet)
 
 output_file <- "../data/twitter.Rdata"
 
-# Tutorial: https://rtweet.info/articles/intro.html
 
 results_twitter <- search_tweets(q = "#autism", n = 10000,
                                  lang = "en",
