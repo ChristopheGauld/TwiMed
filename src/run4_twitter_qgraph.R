@@ -105,16 +105,17 @@ label_nodes_alphab <- sort(label_nodes, decreasing = FALSE)
 
 # create a qgraph object
 pdf(file = output_file1)
-Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "red", negCol = "NA",
+Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "black", negCol = "NA",
             nodeNames = colnames(cor_matrix_reduite), legend.cex = 0.2,
             groups = group_matrix_reduite,
             label.scale = TRUE,
+            label.norm = "OOOOOOOOOO",
             curveAll = TRUE,
             labels = TRUE,
             minimum = 0.08, 
             repulsion = 1., 
             legend.mode = "style2",
-            nodeNames= TRUE,
+            nodeNames= labels = label_nodes_alphab,
             sampleSize = nrow(cor_matrix_reduite),
             alpha = 0.05, #inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
             palette = "pastel",
