@@ -77,9 +77,7 @@ dev.off()
 # save
 save(Q, file = output_file2)
 
-
 rm(list=ls())
-
 input_file1 <- "../data/twitter_tdm.Rdata"
 input_file2 <- "../data/twitter_tdm_group.Rdata"
 output_file1 <- "../fig/twitter_graph_500.pdf"
@@ -94,7 +92,6 @@ nNode <- 500
 freq_word <- dplyr::top_n(dplyr::count(tidy_twitter2, word), nNode, n)
 matrix_reduite <- matrix_twitter[, freq_word$word]
 cor_matrix_reduite <- cor(matrix_reduite)
-
 
 # determine the number of groups
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
