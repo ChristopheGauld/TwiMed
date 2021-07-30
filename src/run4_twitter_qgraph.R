@@ -111,6 +111,10 @@ Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "black", negCol = "N
             label.scale = TRUE,
             label.norm = "OOOOOOOOOO",
             curveAll = TRUE,
+            vsize = 3,
+            label.cex = 5,
+            label.prop = 1,
+            shape = "circle",
             labels = TRUE,
             minimum = 0.08, 
             repulsion = 1., 
@@ -119,7 +123,6 @@ Q <- qgraph(cor_matrix_reduite, layout = "groups", posCol = "black", negCol = "N
             sampleSize = nrow(cor_matrix_reduite),
             alpha = 0.05, #inflation du risque alpha par les tests multiples via la méthode de Bonferroni.
             palette = "pastel",
-            vsize = 4,
             cut = 0.3)
 dev.off()
 
