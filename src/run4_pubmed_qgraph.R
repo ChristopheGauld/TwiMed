@@ -45,7 +45,6 @@ group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]])
 group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
 group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
-
 # eventually define the reduced correlation matrix 
 # cor_matrix <- cor(matrix_pubmed)
 
@@ -87,9 +86,7 @@ dev.off()
 # save
 save(Q, file = output_file2)
 
-
 rm(list=ls())
-
 input_file1 <- "../data/pubmed_tdm.Rdata"
 input_file2 <- "../data/pubmed_tdm_group.Rdata"
 output_file1 <- "../fig/pubmed_graph_500.pdf"
