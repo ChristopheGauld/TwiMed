@@ -23,33 +23,39 @@ output_file1 <- "../fig/pubmed_bs.pdf"
 output_file2 <- "../data/pubmed_bs.Rdata"
 load(input_file)
 
-# Number of bootstraps
-n_bs <- 1000
+runFlag <- FALSE
 
-# Take only the 15 most frequent words (repeat)
-words_pubmed15 = tidy.pubmed4$word[1:15]
+if (runFlag) {
+    # Number of bootstraps
+    n_bs <- 1000
 
-# Bootsrap des occurences et raincloud plot #####
-# Je définis la fonction occurence qui retourne le nombre d’occurence d’un word dans le vecteur data. Je laisse la ligne d =  data[indices] qui semble être nécessaire pour sélectionner les échantillons de data avec remise.
-occurence_random_words <- function(data, indices, word) {
-  ab.pubmed <- data[indices,] # allows boot to select sample
-  tidy_pub <- ab.pubmed %>%
-    unnest_tokens(word, AB)
-  return(sum(tidy_pub$word == word))
+    # Take only the 15 most frequent words (repeat)
+    words_pubmed15 = tidy.pubmed4$word[1:15]
+
+    # Bootsrap des occurences et raincloud plot #####
+    # Je définis la fonction occurence qui retourne le nombre d’occurence d’un word dans le vecteur data. Je laisse la ligne d =  data[indices] qui semble être nécessaire pour sélectionner les échantillons de data avec remise.
+    occurence_random_words <- function(data, indices, word) {
+      ab.pubmed <- data[indices,] # allows boot to select sample
+      tidy_pub <- ab.pubmed %>%
+        unnest_tokens(word, AB)
+      return(sum(tidy_pub$word == word))
+    }
+
+    # initialisation d'un tableau de résultat vide
+    results=matrix(NA,n_bs,15)
+    results=as.data.frame(results)
+    # Pour chacun des 15 mots, on calcule les 1000 valeurs de bootsrap et on les mets dans une colonne du tableau de résultats
+
+    for (i in 1:15) {
+      result <- boot(data=ab.pubmed, statistic=occurence_random_words, R=n_bs, word=words_pubmed15[i])
+      results[,i]=result$t # On remplit une colonne du dataframe des résultats avec les valeurs de bootsrap
+      names(results)[i]=words_pubmed15[i] # On donne le mot en nom de variable du dataframe
+      print(names(results)[i])
+    }
+    save(results, file = output_file2)
+} else {
+   load(output_file2)
 }
-
-# initialisation d'un tableau de résultat vide
-results=matrix(NA,n_bs,15)
-results=as.data.frame(results)
-# Pour chacun des 15 mots, on calcule les 1000 valeurs de bootsrap et on les mets dans une colonne du tableau de résultats
-
-for (i in 1:15) {
-  result <- boot(data=ab.pubmed, statistic=occurence_random_words, R=n_bs, word=words_pubmed15[i])
-  results[,i]=result$t # On remplit une colonne du dataframe des résultats avec les valeurs de bootsrap
-  names(results)[i]=words_pubmed15[i] # On donne le mot en nom de variable du dataframe
-  print(names(results)[i])
-}
-save(results, file = output_file2)
 
 ## And plot the data
 #source("load_function_violin.R") # cf run_twitter_03b
@@ -68,9 +74,9 @@ plotData_pubmed <- gather(inputData_pubmed,
 ## Plot
 p <- ggplot(plotData_pubmed, aes(x = condition, y = value, fill = condition, color = condition)) +
             ggtitle("Bootstrap of the unique words count find in PubMed") +
-            ylab("Top fifteen words") +
-            xlab("Assigned Probability Score") +
-            theme_cowplot() +
+            xlab("Top fifteen words") +
+            ylab("Assigned Probability Score") +
+            theme_half_open() +
             scale_shape_identity() +
             theme(legend.position = "none",
                   plot.title = element_text(size = 20),
@@ -78,10 +84,13 @@ p <- ggplot(plotData_pubmed, aes(x = condition, y = value, fill = condition, col
                   axis.text = element_text(size = 12),
                   axis.text.x = element_text(angle = 0, 
                                              hjust = 0,
-                                             vjust = 0)) +
+                                             vjust = 0),
+                  axis.text.y = element_text(angle = 0, 
+                                             hjust = 0,
+                                             vjust = -0.25)) +
             scale_color_igv() +
             scale_fill_igv() +
-            geom_point(position = position_jitter(0.2), 
+            geom_point(position = position_jitter(0.2),
                        size = 0, 
                        alpha = 1, 
                        aes(shape = 16)) +
@@ -90,15 +99,16 @@ p <- ggplot(plotData_pubmed, aes(x = condition, y = value, fill = condition, col
                              alpha = 0.6, 
                              trim = TRUE, 
                              scale = "width") +
-            geom_boxplot(aes(x = as.numeric(condition) + 0.25, y = value), 
+            geom_boxplot(aes(x = as.numeric(condition) + 0.25, y = rev(value)),
                          notch = TRUE, 
                          width = 0.1, 
                          varwidth = FALSE, 
                          outlier.shape = NA, 
                          alpha = 0.3, 
                          colour = "black", 
-                         show.legend = FALSE)
-            #+ coord_flip()
+                         show.legend = FALSE) + coord_flip() +
+            scale_x_discrete(limits = unique(rev(plotData_pubmed$condition))) +
+            background_grid()
 
 pdf(file = output_file1, width=14, height=14)
 print(p)
