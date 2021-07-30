@@ -24,27 +24,27 @@ library(ggplot2)
 load(input_file1)
 load(input_file2)
 
-# Selection of the 50 most frequent words to plot the graph
+# definition of the reduced matrix with 50 nodes
 nNode <- 50
 freq_word <- dplyr::top_n(dplyr::count(tidy_twitter2, word), nNode, n)
 matrix_reduite <- matrix_twitter[, freq_word$word]
 cor_matrix_reduite <- cor(matrix_reduite)
 
-# Best numbers of Clusters
+# choose the best numbers of clusters
 rest<-NbClust(cor_matrix_reduite, distance = "euclidean", min.nc=2, max.nc=8, 
              method = "complete", index = "ch")
 rest$All.index
 rest$Best.nc
 rest$Best.partition
 
-# Groups
+# determine the number of groups
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
 group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
 group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
 group4_reduit <- which(colnames(cor_matrix_reduite) %in% group[[4]]) 
 group_matrix_reduite <- list(group1_reduit,group2_reduit,group3_reduit,group4_reduit)
 
-
+# determine the names of the clusters
 types_names <- str_to_upper(c("A.Integration and Social Support",
                               "B.Understanding and Mental Health",
                               "C.Child Welfare",
@@ -89,12 +89,14 @@ output_file2 <- "../data/twitter_qgraph_500.Rdata"
 load(input_file1)
 load(input_file2)
 
-# Selection of the 50 most frequent words to plot the graph
+# definition of the reduced matrix with 500 nodes
 nNode <- 500
 freq_word <- dplyr::top_n(dplyr::count(tidy_twitter2, word), nNode, n)
 matrix_reduite <- matrix_twitter[, freq_word$word]
-
 cor_matrix_reduite <- cor(matrix_reduite)
+
+
+# determine the number of groups
 group1_reduit <- which(colnames(cor_matrix_reduite) %in% group[[1]]) 
 group2_reduit <- which(colnames(cor_matrix_reduite) %in% group[[2]]) 
 group3_reduit <- which(colnames(cor_matrix_reduite) %in% group[[3]]) 
