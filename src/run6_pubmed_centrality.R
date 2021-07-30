@@ -2,8 +2,8 @@
 # coding=utf-8
 # ==============================================================================
 # description     : processing pipeline for centralities with qgraph object
-# date            : 2021-01-19
-# version         : 5 (Guillaume Dumas)
+# date            : 2021-07-30
+# version         : 6 (Guillaume Dumas)
 # ==============================================================================
 
 rm(list=ls())

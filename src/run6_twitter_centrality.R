@@ -3,7 +3,7 @@
 # ==============================================================================
 # description     : processing pipeline for centralities with qgraph object
 # date            : 2021-07-30
-# version         : 5 (Guillaume Dumas)
+# version         : 6 (Guillaume Dumas)
 # ==============================================================================
 
 rm(list=ls())
